@@ -9,6 +9,13 @@ init python:
     from shop import Shop
     import clock as clock
 
+    def show_time(a, at):
+        a = clock.gameTime.checkClock()
+        return
+
+
+image showingTime = DynamicDisplayable(show_time)
+
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
@@ -24,12 +31,14 @@ label start:
     # images directory to show it.
 
     scene Crossroads
+    show showingTime at left
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show eileen happy
+    #M - don't need this yet
+    #show eileen happy
 
     menu:
         "Visit the Forest":
@@ -52,9 +61,10 @@ label start:
             return
 
 label forest:
-    m "Where do you want to look?"
 
     menu:
+        m "Where do you want to look?"
+
         "In a wild field":
             #example of single line python script (using dollar sign)
             $ item = forest.wild.search()
