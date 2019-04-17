@@ -1,5 +1,14 @@
 ﻿# The script of the game goes in this file.
 
+init python:
+    import random
+    import forest
+    from player import currentPlayer
+    import items
+    import craft
+    from shop import Shop
+    import clock as clock
+
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
@@ -21,9 +30,10 @@ label start:
     # directory.
 
     show eileen happy
-    
+
     menu:
         "Visit the Forest":
+            m "The forest is an excellent spot to find items!"
             jump forest
         "Go to the Field":
             jump field
@@ -42,44 +52,57 @@ label start:
             return
 
 label forest:
-    # todo: port the runForestMenu code over to here from py.FarmGame
-    m "You are in the forest"
-    
-    # just trying some simple python code to see how it works (dollar sign means python code)
-    $ things = [ "blueberry", "blueberry", "apple", "apple", "vine", "onion", "ginger", "strawberry", "mint", "brown mushroom"]
-    $ found = renpy.random.choice(things)
-    $ firstChar = found[0] # get the first character of the found thing
-    $ aOrAn = 'a'
-    $ vowels = ['a', 'e', 'i', 'o', 'u'] #sometimes not y
-    
-    if ( firstChar in vowels ): # indefinite articles are harder than this, but let's pretend it's based on the letter and not the sound...
-        $ aOrAn = 'an' 
-    
-    # displays some dialog using python
-    $ m( "You found %s %s!" % (aOrAn, found) ) 
-    
-    jump start
-    
+    m "Where do you want to look?"
+
+    menu:
+        "In a wild field":
+            #example of single line python script (using dollar sign)
+            $ item = forest.wild.search()
+            jump foundSomething
+        "Under the Sunny Brook Bridge":
+            $ item = forest.bridge.search()
+            jump foundSomething
+        "By the Forester's Hut":
+            $ item = forest.hut.search()
+            jump foundSomething
+        "Around Pea Bog":
+            $ item = forest.bog.search()
+            jump foundSomething
+        "By the old mine":
+            $ item = forest.mine.search()
+            jump foundSomething
+        "Go back Home":
+            jump start
+
+label foundSomething:
+    #example of mult-line python script
+    python:
+        m( "You found a %s!" % item.name )
+        currentPlayer.inventory.add(item)
+        currentPlayer.addCount(1)
+        currentPlayer.expGain(1)
+    jump forest
+
 label field:
     m "You are in the field"
     jump start
-    
+
 label barn:
     m "You are in the barn"
-    jump start      
-    
+    jump start
+
 label stall:
     m "You are at the vendor stall"
     jump start
-    
+
 label market:
-    m "You are at the market"      
+    m "You are at the market"
     jump start
-    
+
 label crafting:
     m "You are at the crafting bench"
     jump start
-    
+
 label stats:
     m "You are viewing stats"
     jump start
