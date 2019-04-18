@@ -18,7 +18,8 @@ image showingTime = DynamicDisplayable(show_time)
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define m = Character("Mel")
+# commented out for now, using narrator instead of Mel
+#define m = Character("Mel")
 
 
 # The game starts here.
@@ -42,19 +43,26 @@ label start:
 
     menu:
         "Visit the Forest":
-            m "The forest is an excellent spot to find items!"
+            scene Forest
+            narrator "The forest is an excellent spot to find items!"
             jump forest
         "Go to the Field":
+            scene Field
             jump field
         "Go to the Barn":
+            scene Barn
             jump barn
         "Open a Vendor Stall":
+            scene Stall
             jump stall
         "Visit the Market":
+            scene Market
             jump market
         "Go to the Crafting Bench":
+            scene Crafting
             jump crafting
         "View Stats":
+            scene Stats
             jump stats
         "Quit":
             # This ends the game.
@@ -63,7 +71,7 @@ label start:
 label forest:
 
     menu:
-        m "Where do you want to look?"
+        narrator "Where do you want to look?"
 
         "In a wild field":
             #example of single line python script (using dollar sign)
@@ -87,23 +95,21 @@ label forest:
 label foundSomething:
     #example of mult-line python script
     python:
-        m( "You found a %s!" % item.name )
+        narrator( "You found a %s!" % item.name )
         currentPlayer.inventory.add(item)
         currentPlayer.addCount(10)
         currentPlayer.expGain(1)
     jump forest
 
 label field:
-    m "You are in the field"
+    narrator "You are in the field"
     jump start
 
 label barn:
-    m "You are in the barn"
+    narrator "You are in the barn"
     jump start
 
 label stall:
-    m "You are at the vendor stall"
-    jump start
     narrator "You are at the vendor stall" (interact=False)
     python:
         choice=None
@@ -123,13 +129,13 @@ label stall:
     jump stall
 
 label market:
-    m "You are at the market"
+    narrator "You are at the market"
     jump start
 
 label crafting:
-    m "You are at the crafting bench"
+    narrator "You are at the crafting bench"
     jump start
 
 label stats:
-    m "You are viewing stats"
+    narrator "You are viewing stats"
     jump start
