@@ -18,7 +18,7 @@ class ItemType(object):
         else:
             return False
 
-    
+
 
 class Item(object):
     #Star value will alter buy and sell price later
@@ -61,7 +61,7 @@ class Seeds(object):
 
     def getName(self):
         return self.name
-    
+
     def harvestCrop(self):
         return self.crop
 
@@ -76,13 +76,13 @@ class seedPlot(object):
     def __init__(self, seeds, star=None):
         self.seed = seeds
         self.star = star
-        
+
     def upStar(self, num):
         self.star = num
 
 
 #later: if there isn't a way to use it it should be sellable
-# (self, name, sellable, buy, sell)
+# (self, name, sellable, buy, sell, tags)
 #raw food  = ItemType("", True, 4, 2, ["edible"])
 blueberry = ItemType("blueberry", True, 3, 2, ["edible", "sweet"])
 shijemi = ItemType("shijemi", True, 3, 2, ["edible", "mushroom"])

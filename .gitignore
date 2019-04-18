@@ -5,3 +5,6 @@ game/cache/
 *.save
 *.rpyc
 *.rpymc
+game/saves/navigation.json
+game/saves/persistent
+game/player.py.rej
