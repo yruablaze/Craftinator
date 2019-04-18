@@ -86,7 +86,7 @@ class seedPlot(object):
 #raw food  = ItemType("", True, 4, 2, ["edible"])
 blueberry = ItemType("blueberry", True, 3, 2, ["edible", "sweet"])
 shijemi = ItemType("shijemi", True, 3, 2, ["edible", "mushroom"])
-brown_mushroom = ItemType("brown_mushroom", True, 3, 1, ["edible", "mushroom"])
+brown_mushroom = ItemType("brown mushroom", True, 3, 1, ["edible", "mushroom"])
 apple = ItemType("apple", True, 4, 2, ["edible", "crop"])
 onion = ItemType("onion", True, 3, 1, ["edible", "crop"])
 ginger = ItemType("ginger", True, 2, 1, ["edible"])
