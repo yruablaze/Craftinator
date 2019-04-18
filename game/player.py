@@ -27,14 +27,15 @@ class Player(object):
             lvlup = lvlup * 1.1
             if (self.lvl % 2 == 0):
                 addActions(1)
-        
+
     #updates the count of actions and
     #checks to see if the day should be advanced
     def addCount(self, num):
         self.actionCount += num
         if self.actionCount >= self.actions:
             gameTime.advanceDay()
-            
+            self.actionCount = 0
+
     #for lvling up, maybe also special foods?
     def addActions(self, num):
         self.actions += num
@@ -75,7 +76,7 @@ class Inventory(list):
             if item.name == itemType.name:
                 return item
         return None
-    
+
     def printSellable(self):
         printedItems = []
         for item in self:

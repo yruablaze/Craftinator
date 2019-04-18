@@ -10,8 +10,8 @@ init python:
     import clock as clock
 
     def show_time(a, at):
-        a = clock.gameTime.checkClock()
-        return
+        d = Text("It is %s %s in Year %s." % clock.gameTime.checkClock())
+        return d, None
 
 
 image showingTime = DynamicDisplayable(show_time)
@@ -32,6 +32,7 @@ label start:
 
     scene Crossroads
     show showingTime at left
+    show countdown at top
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
