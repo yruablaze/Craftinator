@@ -77,6 +77,9 @@ class Inventory(list):
                 return item
         return None
 
+    def getSellable(self):
+        return list(filter( lambda item: item.sellable == True, self ))
+
     def printSellable(self):
         printedItems = []
         for item in self:

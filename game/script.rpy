@@ -104,6 +104,23 @@ label barn:
 label stall:
     m "You are at the vendor stall"
     jump start
+    narrator "You are at the vendor stall" (interact=False)
+    python:
+        choice=None
+        sellableItems = currentPlayer.inventory.getSellable();
+        menu_items = []
+        menu_items.append(("Choose an item to sell:", None))
+        for item in sellableItems:
+            menu_items.append(("Sell one %s for %s gold." % (item.name, item.sellPrice ), item))
+        menu_items.append(("Nevermind", "Nevermind"))
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("start")
+        else:
+            #todo: add code to actually sell the item
+            narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sellPrice))
+    jump stall
 
 label market:
     m "You are at the market"
