@@ -7,12 +7,11 @@ init python:
     import items
     import craft
     from shop import Shop
-    import clock as clock
+    from clock import gameTime
 
     def show_time(a, at):
-        d = Text("It is %s %s in Year %s." % clock.gameTime.checkClock())
+        d= Text("It is %s %s in Year %s." % gameTime.checkClock())
         return d, None
-
 
 image showingTime = DynamicDisplayable(show_time)
 
@@ -90,7 +89,7 @@ label foundSomething:
     python:
         m( "You found a %s!" % item.name )
         currentPlayer.inventory.add(item)
-        currentPlayer.addCount(1)
+        currentPlayer.addCount(10)
         currentPlayer.expGain(1)
     jump forest
 
