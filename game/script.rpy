@@ -15,6 +15,24 @@ init python:
 
 image showingTime = DynamicDisplayable(show_time)
 
+# Photo by Holly Mandarich on Unsplash
+image Crossroads = "Crossroads.jpg"
+# Photo by Imat Bagja Gumilar on Unsplash
+image Forest = "Forest.jpg"
+# Photo by Benjamin Davies on Unsplash
+image Field = "Field.jpg"
+# Photo by Pedro Lastra on Unsplash
+image Barn = "Barn.jpg"
+# Photo by Sid Verma on Unsplash
+image Stall = "Stall.jpg"
+# Photo by William J Simpson on Unsplash
+image Market = "Market.jpg"
+# Photo by NeONBRAND on Unsplash
+image Crafting = "Crafting.jpg"
+# Photo by Kiwihug on Unsplash
+image Stats = "Stats.jpg"
+
+
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
@@ -32,7 +50,6 @@ label start:
 
     scene Crossroads
     show showingTime at left
-    show countdown at top
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
