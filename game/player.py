@@ -50,25 +50,21 @@ class Inventory(list):
         if invItem == None:
             self.append(item)
         else:
-            invItem.setQuantity(invItem.quantity + item.quantity)
+            invItem.quantity += item.quantity
 
     # def remove(self, item) comes for free :)
     def removeItem(self, item, num=1):
         invItem = self.findType(item)
         if invItem.quantity == num:
-            self.remove(item)
+            self.remove(invItem)
         else:
-            invItem.setQuantity(invItem.quantity - num)
+            invItem.quantity -= num
 
     #??
     def containsType(self, itemType, quantity=1):
-        foundQuantity = 0;
         for item in self:
-            if item.name == itemType.name:
-                foundQuantity += 1
-
-                if foundQuantity == quantity:
-                    return True
+            if item.name == itemType.name and item.quantity >= quantity:
+                return True
         return False
 
     #??
@@ -101,7 +97,10 @@ class Inventory(list):
 
 
 
-currentPlayer = Player(0, 1500, 10, 0)
+currentPlayer = Player(0, 15, 10, 0)
 for i in range(5):
     currentPlayer.inventory.addItem(Item(bark))
-currentPlayer.inventory.addItem(Item(blueberry, 5)) # top quality blueberry
+currentPlayer.inventory.addItem(Item(blueberry)) # top quality blueberry
+currentPlayer.inventory.addItem(Item(blueberry))
+currentPlayer.inventory.addItem(Item(blueberry))
+currentPlayer.inventory.addItem(Item(apple))

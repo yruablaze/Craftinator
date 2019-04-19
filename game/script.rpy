@@ -190,18 +190,24 @@ label crafting:
         menu_items = []
         menu_items.append(("Choose an item to craft:", None))
         for recipe in craft.recipes.values():
-            x = recipe.product
+            componentsFound = True
+            componentsText = ""
             for component, quantity in recipe.components.iteritems():
-                y = quantity
-                z = component.name
-                menu_items.append(("Make a %s with %s %s" % (x, y, z), None))
+                componentsText += ("%s %s, " % (quantity, component))
+                if currentPlayer.inventory.containsType(component, quantity) == False:
+                    componentsFound = False
+            if componentsFound == True:
+                menu_items.append(("Make a %s with: %s" % (recipe.product, componentsText[0:-2]), recipe))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            narrator ("Nothing happens yet")
+            currentPlayer.inventory.addItem(items.Item(choice.product))
+            for component, quantity in choice.components.iteritems():
+                currentPlayer.inventory.removeItem(items.Item(component), quantity)
+            narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 
 label stats:
