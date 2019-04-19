@@ -3,6 +3,8 @@ from clock import gameTime
 from player import currentPlayer
 from items import seedPlot
 
+#Crop.py is not used yet, for V0.6
+
 class Plot(object):
     def __init__ (self, soilLvl, seed):
         self.soilLvl = soilLvl
@@ -42,8 +44,7 @@ class Field(object):
         for plot in self.plotList:
             if plot.seed not == None:
                 days = Seeds.getGrowTime(plot.seed)
-                
-        
-    
-fieldOne = Field()
 
+
+
+fieldOne = Field()

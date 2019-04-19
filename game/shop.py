@@ -2,8 +2,9 @@ import random
 
 from player import currentPlayer
 from items import *
-import clock as clock
+#import clock as clock
 
+#for the market, tells it what can be bought
 buyItemTypes = [string, cloth, fruit_dish]
 
 #every item
@@ -35,6 +36,7 @@ class Shop(object):
     def __init__(self):
         pass
 
+    #for market - gives a list of things to sell from buyItemTypes, one thing per append
     def getBuyable(self):
         buyableList = []
         buyableList.append(Item(random.choice(buyItemTypes)))
@@ -45,24 +47,24 @@ class Shop(object):
 
 
 
-    @staticmethod
-    def buyPrompt(player):
-        global buyItemTypes
-        itemForSale = Item(random.choice(buyItemTypes))
-        print "Here's a cool item to buy: the %s!! Only %s g!!!" % (itemForSale, itemForSale.buyPrice)
-        purchase = raw_input(">")
-
-        if not purchase in ["yes", "y"]:
-            return False
-
-        if player.money < itemForSale.buyPrice:
-            print "You can't afford that. It costs %s g and you only have %s." % (itemForSale.buyPrice, player.money)
-            return
-
-        player.money -= itemForSale.buyPrice
-        player.inventory.add(itemForSale)
-        clock.gameTime.addCount(1)
-        print "You bought a shiny new %s for %s g." % (itemForSale, itemForSale.buyPrice)
+    # @staticmethod
+    # def buyPrompt(player):
+    #     global buyItemTypes
+    #     itemForSale = Item(random.choice(buyItemTypes))
+    #     print "Here's a cool item to buy: the %s!! Only %s g!!!" % (itemForSale, itemForSale.buyPrice)
+    #     purchase = raw_input(">")
+    #
+    #     if not purchase in ["yes", "y"]:
+    #         return False
+    #
+    #     if player.money < itemForSale.buyPrice:
+    #         print "You can't afford that. It costs %s g and you only have %s." % (itemForSale.buyPrice, player.money)
+    #         return
+    #
+    #     player.money -= itemForSale.buyPrice
+    #     player.inventory.add(itemForSale)
+    #     clock.gameTime.addCount(1)
+    #     print "You bought a shiny new %s for %s g." % (itemForSale, itemForSale.buyPrice)
 
 
 

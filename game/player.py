@@ -15,9 +15,11 @@ class Player(object):
         self.actions = actions
         self.actionCount = actionCount
 
+    #for the stats page! not used yet
     def printStats(self):
         return str(self.money), str(self.lvl), str(self.exp)
 
+    #this is doing something, but no way to check right now
     def expGain(self, num=1):
         self.exp += num
         lvlup = 100
@@ -58,6 +60,7 @@ class Inventory(list):
         else:
             invItem.setQuantity(invItem.quantity - num)
 
+    #??
     def containsType(self, itemType, quantity=1):
         foundQuantity = 0;
         for item in self:
@@ -68,12 +71,14 @@ class Inventory(list):
                     return True
         return False
 
+    #??
     def findType(self, itemType):
         for item in self:
             if item.name == itemType.name:
                 return item
         return None
 
+    #gets a list of sellable items for the market
     def getSellable(self):
         return filter( lambda item: item.sellable == True, self )
 

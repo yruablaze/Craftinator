@@ -9,21 +9,25 @@ class Recipe(object):
         self.components = components
 
     def craft(self, inventory):
-        # Check that we can make the item
+    #We shouldn't need to check if we can make the item, the crafting bench should do that
+    #V0.3
+        # # Check that we can make the item
+        # for component, quantity in self.components.iteritems():
+        #     if not inventory.containsType(component, quantity):
+        #         print "You need %s %s to make the %s." % (quantity, component, self.product)
+        #         return False
+        #
+        # # We have enough of everything, so remove the components and add the product item.
         for component, quantity in self.components.iteritems():
-            if not inventory.containsType(component, quantity):
-                print "You need %s %s to make the %s." % (quantity, component, self.product)
-                return False
+            inventory.removeItem(component, quantity)
 
-        # We have enough of everything, so remove the components and add the product item.
-        for component, quantity in self.components.iteritems():
-            inventory.removeType(component, quantity)
-
-        craftedItem = Item(self.product, random.randint(3,5)) # stuff we make is high quality!!!
-        inventory.add(craftedItem)
+        ## craftedItem = Item(self.product, random.randint(3,5)) # stuff we make is high quality!!!
+        ## inventory.add(craftedItem)
+    #Does this work instead? V0.3
+        inventory.addItem(Item(self.product))
         clock.gameTime.addCount(1)
         currentPlayer.expGain(4)
-        print "You made a beautiful %s-star %s." % (craftedItem.star, craftedItem)
+        #print "You made a beautiful %s-star %s." % (craftedItem.star, craftedItem)
 
 
 recipes = {
@@ -38,6 +42,7 @@ recipes = {
     "glass": Recipe(glass, {sand : 3}),
 }
 
+#this should be in script.rpy V0.3
 def printRecipes():
     global recipes
     for recipe in recipes.values():
