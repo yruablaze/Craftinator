@@ -35,6 +35,16 @@ class Shop(object):
     def __init__(self):
         pass
 
+    def getBuyable(self):
+        buyableList = []
+        buyableList.append(Item(random.choice(buyItemTypes)))
+        buyableList.append(Item(random.choice(buyItemTypes)))
+        buyableList.append(Item(random.choice(buyItemTypes)))
+        return buyableList
+
+
+
+
     @staticmethod
     def buyPrompt(player):
         global buyItemTypes
@@ -53,30 +63,32 @@ class Shop(object):
         player.inventory.add(itemForSale)
         clock.gameTime.addCount(1)
         print "You bought a shiny new %s for %s g." % (itemForSale, itemForSale.buyPrice)
-        
 
 
-    @staticmethod 
-    def sellPrompt(player):
-        print "Here's what you can sell right now:"
-        player.inventory.printSellable()
-        playerInput = raw_input(">")
 
-        if playerInput not in allItemTypes.keys():
-            print "That's not a type of item."
-            return
+    # @staticmethod
+    # def sellPrompt(player):
+    #     print "Here's what you can sell right now:"
+    #     player.inventory.printSellable()
+    #     playerInput = raw_input(">")
+    #
+    #     if playerInput not in allItemTypes.keys():
+    #         print "That's not a type of item."
+    #         return
+    #
+    #     itemType = allItemTypes[playerInput]
+    #     if not itemType.sellable:
+    #         print "Nobody wants to buy that."
+    #         return
+    #
+    #     if not player.inventory.containsType(itemType):
+    #         print "You don't have one to sell."
+    #         return
+    #
+    #     itemToSell = player.inventory.findType(itemType)
+    #     player.inventory.removeItem(itemToSell)
+    #     player.money += itemToSell.sellPrice
+    #     clock.gameTime.addCount(1)
+    #     print "You sold your %s for %s g." % (itemToSell, itemToSell.sellPrice)
 
-        itemType = allItemTypes[playerInput]
-        if not itemType.sellable:
-            print "Nobody wants to buy that."
-            return
-
-        if not player.inventory.containsType(itemType):
-            print "You don't have one to sell."
-            return
-
-        itemToSell = player.inventory.findType(itemType)
-        player.inventory.remove(itemToSell)
-        player.money += itemToSell.sellPrice
-        clock.gameTime.addCount(1)
-        print "You sold your %s for %s g." % (itemToSell, itemToSell.sellPrice)
+shop = Shop()
