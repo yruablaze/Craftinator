@@ -8,6 +8,11 @@ class Recipe(object):
         self.product = product
         self.components = components
 
+    def craftCheck(self, inventory):
+        if inventory.containsType(component, quantity) == True:
+            return quantity, component, self.product
+
+
     def craft(self, inventory):
     #We shouldn't need to check if we can make the item, the crafting bench should do that
     #V0.3

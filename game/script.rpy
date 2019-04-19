@@ -185,8 +185,24 @@ label market2:
     jump market2
 
 label crafting:
-    narrator "You are at the crafting bench"
-    jump start
+    narrator "You are at the crafting bench" (interact=False)
+    python:
+        menu_items = []
+        menu_items.append(("Choose an item to craft:", None))
+        for recipe in craft.recipes.values():
+            x = recipe.product
+            for component, quantity in recipe.components.iteritems():
+                y = quantity
+                z = component.name
+                menu_items.append(("Make a %s with %s %s" % (x, y, z), None))
+        menu_items.append(("Nevermind", "Nevermind"))
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("start")
+        else:
+            narrator ("Nothing happens yet")
+    jump crafting
 
 label stats:
     narrator "You are viewing stats"

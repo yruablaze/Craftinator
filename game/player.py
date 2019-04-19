@@ -78,7 +78,7 @@ class Inventory(list):
                 return item
         return None
 
-    #gets a list of sellable items for the market
+    #gets a list of sellable items for the vendor
     def getSellable(self):
         return filter( lambda item: item.sellable == True, self )
 
