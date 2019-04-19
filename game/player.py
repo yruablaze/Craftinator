@@ -44,22 +44,19 @@ class Player(object):
 # Only store Items here otherwise bad stuff will happen
 class Inventory(list):
     def add(self, item):
-        self.append(item)
+        invItem = self.findType(item)
+        if invItem == None:
+            self.append(item)
+        else:
+            invItem.setQuantity(invItem.quantity + item.quantity)
 
     # def remove(self, item) comes for free :)
-
-    def removeType(self, itemType, quantity=1):
-        removedQuantity = 0;
-        for item in self:
-            if item.name == itemType.name:
-                self.remove(item)
-                removedQuantity += 1
-
-                if removedQuantity == quantity:
-                    break
-
-        if removedQuantity < quantity:
-            raise RuntimeError("Not enough %s to remove." % (itemType))
+    def removeItem(self, item, num=1):
+        invItem = self.findType(item)
+        if invItem.quantity == num:
+            self.remove(item)
+        else:
+            invItem.setQuantity(invItem.quantity - num)
 
     def containsType(self, itemType, quantity=1):
         foundQuantity = 0;
@@ -78,24 +75,24 @@ class Inventory(list):
         return None
 
     def getSellable(self):
-        return list(filter( lambda item: item.sellable == True, self ))
+        return filter( lambda item: item.sellable == True, self )
 
-    def printSellable(self):
-        printedItems = []
-        for item in self:
-            if item not in printedItems and item.sellable == True:
-                print "%s (%s g)" % (str(item), str(item.sellPrice()))
+    # def printSellable(self):
+    #     printedItems = []
+    #     for item in self:
+    #         if item not in printedItems and item.sellable == True:
+    #             print "%s (%s g)" % (str(item), str(item.sellPrice()))
+    #
+    #     print ""
 
-        print ""
-
-    def printPretty(self):
-        itemDict = defaultdict(int)
-        for item in self:
-            itemDict[item.name] += 1
-
-        for name, quantity in itemDict.iteritems():
-            print "%s (%s)" % (name, quantity)
-        print ""
+    # def printPretty(self):
+    #     itemDict = defaultdict(int)
+    #     for item in self:
+    #         itemDict[item.name] += 1
+    #
+    #     for name, quantity in itemDict.iteritems():
+    #         print "%s (%s)" % (name, quantity)
+    #     print ""
 
 
 

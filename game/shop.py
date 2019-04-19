@@ -53,10 +53,10 @@ class Shop(object):
         player.inventory.add(itemForSale)
         clock.gameTime.addCount(1)
         print "You bought a shiny new %s for %s g." % (itemForSale, itemForSale.buyPrice)
-        
 
 
-    @staticmethod 
+
+    @staticmethod
     def sellPrompt(player):
         print "Here's what you can sell right now:"
         player.inventory.printSellable()
@@ -76,7 +76,7 @@ class Shop(object):
             return
 
         itemToSell = player.inventory.findType(itemType)
-        player.inventory.remove(itemToSell)
+        player.inventory.removeItem(itemToSell)
         player.money += itemToSell.sellPrice
         clock.gameTime.addCount(1)
         print "You sold your %s for %s g." % (itemToSell, itemToSell.sellPrice)

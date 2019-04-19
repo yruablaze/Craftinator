@@ -9,11 +9,18 @@ init python:
     from shop import Shop
     from clock import gameTime
 
-    def show_time(a, at):
+    def showTime(a, at):
         d= Text("It is %s %s in Year %s." % gameTime.checkClock())
         return d, None
 
-image showingTime = DynamicDisplayable(show_time)
+    def showMoney(a, at):
+        d= Text("Gold : %s" % currentPlayer.money)
+        return d, None
+
+    timeIncrease = 10
+
+image showingTime = DynamicDisplayable(showTime)
+image showingMoney = DynamicDisplayable(showMoney)
 
 # Photo by Holly Mandarich on Unsplash
 image Crossroads = "Crossroads.jpg"
@@ -48,6 +55,7 @@ label start:
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
 
+
     scene Crossroads
     show showingTime at left
 
@@ -61,6 +69,7 @@ label start:
     menu:
         "Visit the Forest":
             scene Forest
+            show showingTime at left
             narrator "The forest is an excellent spot to find items!"
             jump forest
         "Go to the Field":
@@ -71,6 +80,8 @@ label start:
             jump barn
         "Open a Vendor Stall":
             scene Stall
+            show showingTime at left
+            show showingMoney at top
             jump stall
         "Visit the Market":
             scene Market
@@ -114,7 +125,7 @@ label foundSomething:
     python:
         narrator( "You found a %s!" % item.name )
         currentPlayer.inventory.add(item)
-        currentPlayer.addCount(10)
+        currentPlayer.addCount(timeIncrease)
         currentPlayer.expGain(1)
     jump forest
 
@@ -134,14 +145,15 @@ label stall:
         menu_items = []
         menu_items.append(("Choose an item to sell:", None))
         for item in sellableItems:
-            menu_items.append(("Sell one %s for %s gold." % (item.name, item.sellPrice ), item))
+            menu_items.append(("Sell one %s for %s gold. You have %s." % (item.name, item.sellPrice, item.quantity), item))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            #todo: add code to actually sell the item
+            currentPlayer.inventory.removeItem(choice)
+            currentPlayer.money += choice.sellPrice
             narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sellPrice))
     jump stall
 
