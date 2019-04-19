@@ -6,7 +6,7 @@ init python:
     from player import currentPlayer
     import items
     import craft
-    from shop import Shop
+    from shop import shop
     from clock import gameTime
 
     def showTime(a, at):
@@ -85,6 +85,7 @@ label start:
             jump stall
         "Visit the Market":
             scene Market
+            show showingMoney at top
             jump market
         "Go to the Crafting Bench":
             scene Crafting
@@ -124,7 +125,7 @@ label foundSomething:
     #example of mult-line python script
     python:
         narrator( "You found a %s!" % item.name )
-        currentPlayer.inventory.add(item)
+        currentPlayer.inventory.addItem(item)
         currentPlayer.addCount(timeIncrease)
         currentPlayer.expGain(1)
     jump forest
@@ -141,7 +142,7 @@ label stall:
     narrator "You are at the vendor stall" (interact=False)
     python:
         choice=None
-        sellableItems = currentPlayer.inventory.getSellable();
+        sellableItems = currentPlayer.inventory.getSellable()
         menu_items = []
         menu_items.append(("Choose an item to sell:", None))
         for item in sellableItems:
@@ -158,8 +159,30 @@ label stall:
     jump stall
 
 label market:
-    narrator "You are at the market"
-    jump start
+    python:
+        buyableItems = shop.getBuyable()
+label market2:
+    narrator "You are at the market" (interact=False)
+    python:
+        cash = currentPlayer.money
+        menu_items = []
+        menu_items.append(("Choose an item to buy:", None))
+        for item in buyableItems:
+            if cash >= item.buyPrice:
+                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), item))
+            else:
+                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), None))
+        menu_items.append(("Nevermind", "Nevermind"))
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("start")
+        else:
+            buyableItems.remove(choice)
+            currentPlayer.inventory.addItem(choice)
+            currentPlayer.money -= choice.buyPrice
+            narrator ("You bought 1 %s for %s gold" % (choice.name, choice.buyPrice))
+    jump market2
 
 label crafting:
     narrator "You are at the crafting bench"

@@ -43,7 +43,7 @@ class Player(object):
 # A special type of list that stores a player's inventory
 # Only store Items here otherwise bad stuff will happen
 class Inventory(list):
-    def add(self, item):
+    def addItem(self, item):
         invItem = self.findType(item)
         if invItem == None:
             self.append(item)
@@ -96,7 +96,7 @@ class Inventory(list):
 
 
 
-currentPlayer = Player(0, 15, 10, 0)
+currentPlayer = Player(0, 1500, 10, 0)
 for i in range(5):
-    currentPlayer.inventory.add(Item(bark))
-currentPlayer.inventory.add(Item(blueberry, 5)) # top quality blueberry
+    currentPlayer.inventory.addItem(Item(bark))
+currentPlayer.inventory.addItem(Item(blueberry, 5)) # top quality blueberry
