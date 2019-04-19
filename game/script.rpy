@@ -198,11 +198,14 @@ label crafting:
                     componentsFound = False
             if componentsFound == True:
                 menu_items.append(("Make a %s with: %s" % (recipe.product, componentsText[0:-2]), recipe))
+        menu_items.append(("View all recipes", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
+        elif(choice == "View all"):
+            renpy.jump("recipeList")
         else:
             currentPlayer.inventory.addItem(items.Item(choice.product))
             for component, quantity in choice.components.iteritems():
@@ -210,6 +213,21 @@ label crafting:
             currentPlayer.expGain(4)
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
+
+label recipeList:
+    #it works but i think there are too many recipes and they aren't all showing
+    python:
+        menu_items = []
+        for recipe in craft.recipes.values():
+            componentsText = ""
+            for component, quantity in recipe.components.iteritems():
+                componentsText += ("%s %s, " % (quantity, component))
+            menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
+        menu_items.append(("Done", "Nevermind"))
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("crafting")
 
 label stats:
     narrator "You are viewing stats"
