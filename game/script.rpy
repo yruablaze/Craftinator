@@ -207,6 +207,7 @@ label crafting:
             currentPlayer.inventory.addItem(items.Item(choice.product))
             for component, quantity in choice.components.iteritems():
                 currentPlayer.inventory.removeItem(items.Item(component), quantity)
+            currentPlayer.expGain(4)
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 

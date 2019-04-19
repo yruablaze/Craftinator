@@ -28,7 +28,7 @@ class Player(object):
             self.exp -= lvlup
             lvlup = lvlup * 1.1
             if (self.lvl % 2 == 0):
-                addActions(1)
+                self.addActions(1)
 
     #updates the count of actions and
     #checks to see if the day should be advanced
@@ -36,7 +36,7 @@ class Player(object):
         self.actionCount += num
         if self.actionCount >= self.actions:
             gameTime.advanceDay()
-            self.actionCount = 0
+            self.actionCount -= self.actions
 
     #for lvling up, maybe also special foods?
     def addActions(self, num):
