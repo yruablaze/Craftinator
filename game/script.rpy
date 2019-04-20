@@ -217,7 +217,7 @@ label crafting:
 label recipeList:
     python:
         # number of recipes to show per page
-        showPerPage = 4
+        showPerPage = 6
         currentPage = 0
         recipesList = craft.recipes.values()
 
@@ -236,16 +236,16 @@ label recipeSubList:
             menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
 
         # if it's the first page, disable the Prev button
-        if (currentPage == 0):
-            menu_items.append(("< Prev", None))
-        else:
+        if (currentPage > 0):
             menu_items.append(("< Prev", "prev"))
+        # else:
+        #     menu_items.append(("< Prev", "prev"))
 
         # if it's the last page, disable the Next button
         if ( endSubList < len(recipesList) ):
             menu_items.append(("Next >", "next"))
-        else:
-            menu_items.append(("Next >", None))
+        # else:
+        #     menu_items.append(("Next >", None))
 
         menu_items.append(("Done", "Nevermind"))
 
