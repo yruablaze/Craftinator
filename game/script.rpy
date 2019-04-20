@@ -131,6 +131,9 @@ label foundSomething:
     jump forest
 
 label field:
+    python:
+        myvar = "test"
+    narrator "[myvar]"
     narrator "You are in the field"
     jump start
 
@@ -225,8 +228,7 @@ label recipeList:
                 componentsText += ("%s %s, " % (quantity, component))
             #if this was just a string i think it might work
             #currently: TypeError: 'module' object is not callable
-            #maybe renpy can't handle %s
-            renpy.text "%s needs: %s" % (recipe.product, componentsText[0:-2])
+            renpy.narrator "[recipe.product] needs: [componentsText]"
         # for item in recipeList:
         #     renpy.text ("%s" % (item))
     narrator "You are looking at your list of recipes"
