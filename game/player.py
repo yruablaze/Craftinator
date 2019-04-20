@@ -10,23 +10,25 @@ class Player(object):
     def __init__(self, exp, money, actions, actionCount):
         self.exp = exp
         self.lvl = 0
+        self.lvlUp = 100
         self.money = money
         self.inventory = Inventory()
         self.actions = actions
         self.actionCount = actionCount
 
+    #for the stats page! not used yet
     def printStats(self):
         return str(self.money), str(self.lvl), str(self.exp)
 
+    #experince UP
     def expGain(self, num=1):
         self.exp += num
-        lvlup = 100
-        if self.exp >= lvlup:
+        if self.exp >= self.lvlUp:
             self.lvl += 1
-            self.exp -= lvlup
-            lvlup = lvlup * 1.1
+            self.exp -= self.lvlUp
+            self.lvlUp = self.lvlUp * 1.1
             if (self.lvl % 2 == 0):
-                addActions(1)
+                self.addActions(1)
 
     #updates the count of actions and
     #checks to see if the day should be advanced
@@ -34,7 +36,7 @@ class Player(object):
         self.actionCount += num
         if self.actionCount >= self.actions:
             gameTime.advanceDay()
-            self.actionCount = 0
+            self.actionCount -= self.actions
 
     #for lvling up, maybe also special foods?
     def addActions(self, num):
@@ -48,32 +50,31 @@ class Inventory(list):
         if invItem == None:
             self.append(item)
         else:
-            invItem.setQuantity(invItem.quantity + item.quantity)
+            invItem.quantity += item.quantity
 
     # def remove(self, item) comes for free :)
     def removeItem(self, item, num=1):
         invItem = self.findType(item)
         if invItem.quantity == num:
-            self.remove(item)
+            self.remove(invItem)
         else:
-            invItem.setQuantity(invItem.quantity - num)
+            invItem.quantity -= num
 
+    #??
     def containsType(self, itemType, quantity=1):
-        foundQuantity = 0;
         for item in self:
-            if item.name == itemType.name:
-                foundQuantity += 1
-
-                if foundQuantity == quantity:
-                    return True
+            if item.name == itemType.name and item.quantity >= quantity:
+                return True
         return False
 
+    #??
     def findType(self, itemType):
         for item in self:
             if item.name == itemType.name:
                 return item
         return None
 
+    #gets a list of sellable items for the vendor
     def getSellable(self):
         return filter( lambda item: item.sellable == True, self )
 
@@ -96,7 +97,10 @@ class Inventory(list):
 
 
 
-currentPlayer = Player(0, 1500, 10, 0)
+currentPlayer = Player(0, 15, 10, 0)
 for i in range(5):
     currentPlayer.inventory.addItem(Item(bark))
-currentPlayer.inventory.addItem(Item(blueberry, 5)) # top quality blueberry
+currentPlayer.inventory.addItem(Item(blueberry)) # top quality blueberry
+currentPlayer.inventory.addItem(Item(blueberry))
+currentPlayer.inventory.addItem(Item(blueberry))
+currentPlayer.inventory.addItem(Item(apple))

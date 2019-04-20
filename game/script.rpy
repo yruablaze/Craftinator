@@ -185,9 +185,79 @@ label market2:
     jump market2
 
 label crafting:
-    narrator "You are at the crafting bench"
-    jump start
+    narrator "You are at the crafting bench" (interact=False)
+    python:
+        menu_items = []
+        menu_items.append(("Choose an item to craft:", None))
+        for recipe in craft.recipes.values():
+            componentsFound = True
+            componentsText = ""
+            for component, quantity in recipe.components.iteritems():
+                componentsText += ("%s %s, " % (quantity, component))
+                if currentPlayer.inventory.containsType(component, quantity) == False:
+                    componentsFound = False
+            if componentsFound == True:
+                menu_items.append(("Make a %s with: %s" % (recipe.product, componentsText[0:-2]), recipe))
+        menu_items.append(("View all recipes", "View all"))
+        menu_items.append(("Nevermind", "Nevermind"))
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("start")
+        elif(choice == "View all"):
+            renpy.jump("recipeList")
+        else:
+            currentPlayer.inventory.addItem(items.Item(choice.product))
+            for component, quantity in choice.components.iteritems():
+                currentPlayer.inventory.removeItem(items.Item(component), quantity)
+            currentPlayer.expGain(4)
+            currentPlayer.addCount(timeIncrease)
+            narrator ("You made a %s!" % (choice.product.name))
+    jump crafting
+
+label recipeList:
+    python:
+        # number of recipes to show per page
+        showPerPage = 6
+        currentPage = 0
+        recipesList = craft.recipes.values()
+
+label recipeSubList:
+    python:
+        menu_items = []
+        startSubList = currentPage*showPerPage
+        endSubList = (currentPage+1)*showPerPage
+
+        # only add the current page of recipes to the menu
+        recipesSubList = recipesList[startSubList:endSubList]
+        for recipe in recipesSubList:
+            componentsText = ""
+            for component, quantity in recipe.components.iteritems():
+                componentsText += ("%s %s, " % (quantity, component))
+            menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
+
+        #Show prev button on pages after the first page
+        if (currentPage > 0):
+            menu_items.append(("< Prev", "prev"))
+
+        #Show next button on pages before the last page
+        if ( endSubList < len(recipesList) ):
+            menu_items.append(("Next >", "next"))
+
+        menu_items.append(("Done", "Nevermind"))
+
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+
+        if (choice == "Nevermind"):
+            renpy.jump("crafting")
+        elif (choice == "prev"):
+            currentPage -= 1
+            renpy.jump("recipeSubList")
+        elif (choice == "next"):
+            currentPage += 1
+            renpy.jump("recipeSubList")
 
 label stats:
-    narrator "You are viewing stats"
+    $ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
     jump start

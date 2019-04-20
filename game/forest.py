@@ -21,5 +21,3 @@ hut = ForestLocation([twig, twig, shijemi, branch, \
 bog =  ForestLocation([twig, blueberry, vine, vine, twig, dirt])
 mine = ForestLocation([sand, sand, sand, pebbles, \
                        pebbles, dirt, stone, stone, stone])
-
-
