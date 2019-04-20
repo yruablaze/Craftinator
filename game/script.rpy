@@ -211,6 +211,7 @@ label crafting:
             for component, quantity in choice.components.iteritems():
                 currentPlayer.inventory.removeItem(items.Item(component), quantity)
             currentPlayer.expGain(4)
+            currentPlayer.addCount(timeIncrease)
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 
@@ -235,17 +236,13 @@ label recipeSubList:
                 componentsText += ("%s %s, " % (quantity, component))
             menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
 
-        # if it's the first page, disable the Prev button
+        #Show prev button on pages after the first page
         if (currentPage > 0):
             menu_items.append(("< Prev", "prev"))
-        # else:
-        #     menu_items.append(("< Prev", "prev"))
 
-        # if it's the last page, disable the Next button
+        #Show next button on pages before the last page
         if ( endSubList < len(recipesList) ):
             menu_items.append(("Next >", "next"))
-        # else:
-        #     menu_items.append(("Next >", None))
 
         menu_items.append(("Done", "Nevermind"))
 
@@ -262,5 +259,5 @@ label recipeSubList:
             renpy.jump("recipeSubList")
 
 label stats:
-    narrator "You are viewing stats"
+    $ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
     jump start

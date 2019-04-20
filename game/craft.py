@@ -1,7 +1,6 @@
 import random
 from player import currentPlayer
 from items import *
-import clock as clock
 
 class Recipe(object):
     def __init__(self, product, components):
@@ -11,29 +10,6 @@ class Recipe(object):
     def craftCheck(self, inventory):
         if inventory.containsType(component, quantity) == True:
             return quantity, component, self.product
-
-
-    def craft(self, inventory):
-    #We shouldn't need to check if we can make the item, the crafting bench should do that
-    #V0.3
-        # # Check that we can make the item
-        # for component, quantity in self.components.iteritems():
-        #     if not inventory.containsType(component, quantity):
-        #         print "You need %s %s to make the %s." % (quantity, component, self.product)
-        #         return False
-        #
-        # # We have enough of everything, so remove the components and add the product item.
-        for component, quantity in self.components.iteritems():
-            inventory.removeItem(component, quantity)
-
-        ## craftedItem = Item(self.product, random.randint(3,5)) # stuff we make is high quality!!!
-        ## inventory.add(craftedItem)
-    #Does this work instead? V0.3
-        inventory.addItem(Item(self.product))
-        clock.gameTime.addCount(1)
-        currentPlayer.expGain(4)
-        #print "You made a beautiful %s-star %s." % (craftedItem.star, craftedItem)
-
 
 recipes = {
     "twig": Recipe(twig, {branch: 1}),
@@ -46,12 +22,3 @@ recipes = {
     "fruit_dish": Recipe(fruit_dish, {blueberry: 3, apple: 1}),
     "glass": Recipe(glass, {sand : 3}),
 }
-
-#this should be in script.rpy V0.3
-def printRecipes():
-    global recipes
-    for recipe in recipes.values():
-        print "A %s can be made with:" % (recipe.product)
-        for component, quantity in recipe.components.iteritems():
-            print "(%s) %s" % (quantity, component.name)
-        print ""

@@ -10,6 +10,7 @@ class Player(object):
     def __init__(self, exp, money, actions, actionCount):
         self.exp = exp
         self.lvl = 0
+        self.lvlUp = 100
         self.money = money
         self.inventory = Inventory()
         self.actions = actions
@@ -19,14 +20,13 @@ class Player(object):
     def printStats(self):
         return str(self.money), str(self.lvl), str(self.exp)
 
-    #this is doing something, but no way to check right now
+    #experince UP
     def expGain(self, num=1):
         self.exp += num
-        lvlup = 100
-        if self.exp >= lvlup:
+        if self.exp >= self.lvlUp:
             self.lvl += 1
-            self.exp -= lvlup
-            lvlup = lvlup * 1.1
+            self.exp -= self.lvlUp
+            self.lvlUp = self.lvlUp * 1.1
             if (self.lvl % 2 == 0):
                 self.addActions(1)
 

@@ -12,11 +12,12 @@ class ItemType(object):
     def __str__(self):
         return self.name
 
-    def sellCheck(self):
-        if self.sellable == True:
-            return True
-        else:
-            return False
+    # #not used?
+    # def sellCheck(self):
+    #     if self.sellable == True:
+    #         return True
+    #     else:
+    #         return False
 
 
 
