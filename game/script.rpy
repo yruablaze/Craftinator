@@ -215,19 +215,51 @@ label crafting:
     jump crafting
 
 label recipeList:
-    #it works but i think there are too many recipes and they aren't all showing
+    python:
+        # number of recipes to show per page
+        showPerPage = 4
+        currentPage = 0
+        recipesList = craft.recipes.values()
+
+label recipeSubList:
     python:
         menu_items = []
-        for recipe in craft.recipes.values():
+        startSubList = currentPage*showPerPage
+        endSubList = (currentPage+1)*showPerPage
+
+        # only add the current page of recipes to the menu
+        recipesSubList = recipesList[startSubList:endSubList]
+        for recipe in recipesSubList:
             componentsText = ""
             for component, quantity in recipe.components.iteritems():
                 componentsText += ("%s %s, " % (quantity, component))
             menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
+
+        # if it's the first page, disable the Prev button
+        if (currentPage == 0):
+            menu_items.append(("< Prev", None))
+        else:
+            menu_items.append(("< Prev", "prev"))
+
+        # if it's the last page, disable the Next button
+        if ( endSubList < len(recipesList) ):
+            menu_items.append(("Next >", "next"))
+        else:
+            menu_items.append(("Next >", None))
+
         menu_items.append(("Done", "Nevermind"))
+
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
+
         if (choice == "Nevermind"):
             renpy.jump("crafting")
+        elif (choice == "prev"):
+            currentPage -= 1
+            renpy.jump("recipeSubList")
+        elif (choice == "next"):
+            currentPage += 1
+            renpy.jump("recipeSubList")
 
 label stats:
     narrator "You are viewing stats"
