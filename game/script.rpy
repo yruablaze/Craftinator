@@ -215,19 +215,22 @@ label crafting:
     jump crafting
 
 label recipeList:
-    #it works but i think there are too many recipes and they aren't all showing
+    #it's broke
+    narrator "Preparing the list of recipes"
     python:
-        menu_items = []
+        # recipeList = []
         for recipe in craft.recipes.values():
             componentsText = ""
             for component, quantity in recipe.components.iteritems():
                 componentsText += ("%s %s, " % (quantity, component))
-            menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
-        menu_items.append(("Done", "Nevermind"))
-        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
-        choice = menu(menu_items)
-        if (choice == "Nevermind"):
-            renpy.jump("crafting")
+            #if this was just a string i think it might work
+            #currently: TypeError: 'module' object is not callable
+            #maybe renpy can't handle %s
+            renpy.text "%s needs: %s" % (recipe.product, componentsText[0:-2])
+        # for item in recipeList:
+        #     renpy.text ("%s" % (item))
+    narrator "You are looking at your list of recipes"
+    jump crafting
 
 label stats:
     narrator "You are viewing stats"
