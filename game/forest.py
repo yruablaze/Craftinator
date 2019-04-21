@@ -18,6 +18,6 @@ bridge = ForestLocation([stone, shijemi, pebbles, \
                          pebbles, pebbles, vine, vine])
 hut = ForestLocation([twig, twig, shijemi, branch, \
                       branch, branch, branch, bark, bark])
-bog =  ForestLocation([twig, blueberry, vine, vine, twig, dirt])
+bog = ForestLocation([twig, blueberry, vine, vine, twig, dirt])
 mine = ForestLocation([sand, sand, sand, pebbles, \
                        pebbles, dirt, stone, stone, stone])

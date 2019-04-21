@@ -1,13 +1,11 @@
 import random
-
-from player import currentPlayer
 from items import *
-#import clock as clock
+# import clock as clock
 
-#for the market, tells it what can be bought
+# for the market, tells it what can be bought
 buyItemTypes = [string, cloth, fruit_dish]
 
-#every item
+# every item
 allItemTypes = {
     "blueberry" : blueberry,
     "strawberry" : strawberry,
@@ -32,11 +30,12 @@ allItemTypes = {
     "fruit_dish" : fruit_dish
 }
 
+
 class Shop(object):
     def __init__(self):
         pass
 
-    #for market - gives a list of things to sell from buyItemTypes, one thing per append
+    # for market - gives a list of things to sell from buyItemTypes, one thing per append
     def getBuyable(self):
         buyableList = []
         buyableList.append(Item(random.choice(buyItemTypes)))

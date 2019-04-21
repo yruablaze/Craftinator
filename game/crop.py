@@ -1,10 +1,9 @@
-import random
 from clock import gameTime
 from player import currentPlayer
 from items import seedPlot
 
-#Crop.py is not used yet, for V0.6
 
+# Crop.py is not used yet, for V0.6
 class Plot(object):
     def __init__ (self, soilLvl, seed):
         self.soilLvl = soilLvl
@@ -18,7 +17,7 @@ class Plot(object):
 class Field(object):
     def __init__(self):
         self.plotList = []
-    
+
         for i in range(1, 7):
             self.plotList.append( Plot(1, None) )
 

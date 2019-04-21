@@ -1,7 +1,5 @@
-import random
-
 class ItemType(object):
-    #edible will affect eating food and cooking later
+    # edible will affect eating food and cooking later
     def __init__(self, name, sellable, baseBuy, baseSell, tags):
         self.name = name
         self.sellable = sellable
@@ -9,20 +7,9 @@ class ItemType(object):
         self.baseSell = baseSell
         self.tags = tags
 
-    def __str__(self):
-        return self.name
-
-    # #not used?
-    # def sellCheck(self):
-    #     if self.sellable == True:
-    #         return True
-    #     else:
-    #         return False
-
-
 
 class Item(object):
-    #Star value will alter buy and sell price later
+    # Star value will alter buy and sell price later
     def __init__(self, itemType, quantity=1, star=None):
         self.type = itemType
         self.quantity = quantity
@@ -31,13 +18,6 @@ class Item(object):
             self.star = star
         else:
             self.star = 1
-
-    # #@property
-    # def getQuantity(self):
-    #     return self.quantity
-    #
-    # def setQuantity(self, x):
-    #     self.quantity = x
 
     @property
     def buyPrice(self):
@@ -50,9 +30,6 @@ class Item(object):
     @property
     def name(self):
         return self.type.name
-
-    def __str__(self):
-        return self.name
 
     @property
     def sellable(self):
@@ -92,9 +69,9 @@ class seedPlot(object):
         self.star = num
 
 
-#later: if there isn't a way to use it it should be sellable
+# later: if there isn't a way to use it it should be sellable
 # (self, name, sellable, buy, sell, tags)
-#raw food  = ItemType("", True, 4, 2, ["edible"])
+# raw food  = ItemType("", True, 4, 2, ["edible"])
 blueberry = ItemType("blueberry", True, 3, 2, ["edible", "sweet"])
 shijemi = ItemType("shijemi", True, 3, 2, ["edible", "mushroom"])
 brown_mushroom = ItemType("brown mushroom", True, 3, 1, ["edible", "mushroom"])
@@ -104,10 +81,10 @@ ginger = ItemType("ginger", True, 2, 1, ["edible"])
 strawberry = ItemType("strawberry", True, 3, 2, ["edible", "sweet", "crop"])
 mint = ItemType("mint", True, 2, 1, ["edible", "herb", "crop"])
 
-#crafted food = ItemType("", True, 4, 2, [])
+# crafted food = ItemType("", True, 4, 2, [])
 fruit_dish = ItemType("fruit dish", True, 16, 12, ["edible"])
 
-#base  = ItemType("", False, 1, 0, [])
+# base  = ItemType("", False, 1, 0, [])
 vine = ItemType("vine", False, 3, 0, [])
 twig = ItemType("twig", False, 1, 0, [])
 branch = ItemType("branch", False, 3, 0, [])
@@ -117,13 +94,13 @@ pebbles = ItemType("pebbles", False, 1, 0, [])
 dirt = ItemType("dirt", False, 1, 0, [])
 sand = ItemType("sand", False, 2, 0, [])
 
-#craft = ItemType("", False, 5, 0, [])
+# craft = ItemType("", False, 5, 0, [])
 string = ItemType("string", False, 5, 0, [])
 cloth = ItemType("cloth", True, 15, 11, [])
 brick = ItemType("brick", True, 4, 2, [])
 pole = ItemType("pole", True, 5, 0, [])
 glass = ItemType("glass", True, 3, 0, [])
 
-#seeds = Seed("name", growTime, refreshTime, ["seasonsGrown"])
+# seeds = Seed("name", growTime, refreshTime, ["seasonsGrown"])
 onion_seed = Seeds("onion seed", 5, None, ["Summer", "Fall"], onion)
 strawberry_seed = Seeds("strawberry seed", 9, 3, ["Summer"], strawberry)

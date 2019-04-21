@@ -5,7 +5,6 @@ from items import *
 from clock import gameTime
 
 
-
 class Player(object):
     def __init__(self, exp, money, actions, actionCount):
         self.exp = exp
@@ -16,11 +15,7 @@ class Player(object):
         self.actions = actions
         self.actionCount = actionCount
 
-    #for the stats page! not used yet
-    def printStats(self):
-        return str(self.money), str(self.lvl), str(self.exp)
-
-    #experince UP
+    # experince UP
     def expGain(self, num=1):
         self.exp += num
         if self.exp >= self.lvlUp:
@@ -30,17 +25,18 @@ class Player(object):
             if (self.lvl % 2 == 0):
                 self.addActions(1)
 
-    #updates the count of actions and
-    #checks to see if the day should be advanced
+    # updates the count of actions and
+    # checks to see if the day should be advanced
     def addCount(self, num):
         self.actionCount += num
         if self.actionCount >= self.actions:
             gameTime.advanceDay()
             self.actionCount -= self.actions
 
-    #for lvling up, maybe also special foods?
+    # for lvling up, maybe also special foods?
     def addActions(self, num):
         self.actions += num
+
 
 # A special type of list that stores a player's inventory
 # Only store Items here otherwise bad stuff will happen
@@ -60,21 +56,21 @@ class Inventory(list):
         else:
             invItem.quantity -= num
 
-    #??
+    # Checks if the item exists in inv and if there is enough of the item
     def containsType(self, itemType, quantity=1):
         for item in self:
             if item.name == itemType.name and item.quantity >= quantity:
                 return True
         return False
 
-    #??
+    # checks if the item is in the inv and returns the item
     def findType(self, itemType):
         for item in self:
             if item.name == itemType.name:
                 return item
         return None
 
-    #gets a list of sellable items for the vendor
+    # gets a list of sellable items for the vendor
     def getSellable(self):
         return filter( lambda item: item.sellable == True, self )
 
@@ -83,24 +79,6 @@ class Inventory(list):
         for item in self:
             invList.append(item)
         return invList
-
-    # def printSellable(self):
-    #     printedItems = []
-    #     for item in self:
-    #         if item not in printedItems and item.sellable == True:
-    #             print "%s (%s g)" % (str(item), str(item.sellPrice()))
-    #
-    #     print ""
-
-    # def printPretty(self):
-    #     itemDict = defaultdict(int)
-    #     for item in self:
-    #         itemDict[item.name] += 1
-    #
-    #     for name, quantity in itemDict.iteritems():
-    #         print "%s (%s)" % (name, quantity)
-    #     print ""
-
 
 
 currentPlayer = Player(0, 15, 10, 0)

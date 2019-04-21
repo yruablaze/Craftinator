@@ -1,6 +1,5 @@
-import random
-from player import currentPlayer
 from items import *
+
 
 class Recipe(object):
     def __init__(self, product, components):
@@ -8,8 +7,9 @@ class Recipe(object):
         self.components = components
 
     def craftCheck(self, inventory):
-        if inventory.containsType(component, quantity) == True:
+        if inventory.containsType(component, quantity) is True:
             return quantity, component, self.product
+
 
 recipes = {
     "twig": Recipe(twig, {branch: 1}),
@@ -20,5 +20,5 @@ recipes = {
     "dirt": Recipe(dirt, {pebbles: 5}),
     "brick": Recipe(brick, {stone: 2}),
     "fruit_dish": Recipe(fruit_dish, {blueberry: 3, apple: 1}),
-    "glass": Recipe(glass, {sand : 3}),
+    "glass": Recipe(glass, {sand: 3}),
 }

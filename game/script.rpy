@@ -44,7 +44,7 @@ image Stats = "Stats.jpg"
 # name of the character.
 
 # commented out for now, using narrator instead of Mel
-#define m = Character("Mel")
+# define m = Character("Mel")
 
 
 # The game starts here.
@@ -63,8 +63,8 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    #M - don't need this yet
-    #show eileen happy
+    # M - don't need this yet
+    # show eileen happy
 
     menu:
         "Visit the Forest":
@@ -101,9 +101,8 @@ label forest:
 
     menu:
         narrator "Where do you want to look?"
-
         "In a wild field":
-            #example of single line python script (using dollar sign)
+            # example of single line python script (using dollar sign)
             $ item = forest.wild.search()
             jump foundSomething
         "Under the Sunny Brook Bridge":
@@ -122,7 +121,7 @@ label forest:
             jump start
 
 label foundSomething:
-    #example of mult-line python script
+    # example of mult-line python script
     python:
         narrator( "You found a %s!" % item.name )
         currentPlayer.inventory.addItem(item)
@@ -193,11 +192,11 @@ label crafting:
             componentsFound = True
             componentsText = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component))
+                componentsText += ("%s %s, " % (quantity, component.name))
                 if currentPlayer.inventory.containsType(component, quantity) == False:
                     componentsFound = False
             if componentsFound == True:
-                menu_items.append(("Make a %s with: %s" % (recipe.product, componentsText[0:-2]), recipe))
+                menu_items.append(("Make a %s with: %s" % (recipe.product.name, componentsText[0:-2]), recipe))
         menu_items.append(("View all recipes", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -233,14 +232,14 @@ label recipeSubList:
         for recipe in recipesSubList:
             componentsText = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component))
-            menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
+                componentsText += ("%s %s, " % (quantity, component.name))
+            menu_items.append((" %s needs: %s" % (recipe.product.name, componentsText[0:-2]), None))
 
-        #Show prev button on pages after the first page
+        # Show prev button on pages after the first page
         if (currentPage > 0):
             menu_items.append(("< Prev", "prev"))
 
-        #Show next button on pages before the last page
+        # Show next button on pages before the last page
         if ( endSubList < len(recipesList) ):
             menu_items.append(("Next >", "next"))
 
@@ -259,7 +258,7 @@ label recipeSubList:
             renpy.jump("recipeSubList")
 
 label stats:
-    #$ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
+    # $ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
     narrator "Here is the status page"  (interact=False)
     python:
         menu_items = []
@@ -297,12 +296,12 @@ label subStatsInvDisplay:
         for item in inventoryList:
             menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
 
-        #Show prev button on pages after the first page
+        # Show prev button on pages after the first page
         if (currentPage > 0):
             menu_items.append(("< Prev", "prev"))
 
-        #Show next button on pages before the last page
-        if ( endSubList < len(inventoryList) ):
+        # Show next button on pages before the last page
+        if (endSubList < len(inventoryList)):
             menu_items.append(("Next >", "next"))
 
         menu_items.append(("Done", "Nevermind"))
@@ -314,7 +313,7 @@ label subStatsInvDisplay:
             renpy.jump("stats")
         elif (choice == "prev"):
             currentPage -= 1
-            renpy.jump("invSubList")
+            renpy.jump("subStatsInvDisplay")
         elif (choice == "next"):
             currentPage += 1
-            renpy.jump("invSubList")
+            renpy.jump("subStatsInvDisplay")
