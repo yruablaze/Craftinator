@@ -295,7 +295,7 @@ label subStatsInvDisplay:
         # only add the current page of recipes to the menu
         invSubList = inventoryList[startSubList:endSubList]
         for item in inventoryList:
-            menu_items.append(("%s : %s" % (item.name, item.quantity), None))
+            menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
 
         #Show prev button on pages after the first page
         if (currentPage > 0):
