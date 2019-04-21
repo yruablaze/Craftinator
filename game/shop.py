@@ -31,17 +31,10 @@ allItemTypes = {
 }
 
 
-class Shop(object):
-    def __init__(self):
-        pass
-
-    # for market - gives a list of things to sell from buyItemTypes, one thing per append
-    def getBuyable(self):
-        buyableList = []
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        return buyableList
-
-
-shop = Shop()
+# for market - gives a list of things to sell from buyItemTypes, one thing per append
+def getBuyable():
+    buyableList = []
+    buyableList.append(Item(random.choice(buyItemTypes)))
+    buyableList.append(Item(random.choice(buyItemTypes)))
+    buyableList.append(Item(random.choice(buyItemTypes)))
+    return buyableList

@@ -6,7 +6,7 @@ init python:
     from player import currentPlayer
     import items
     import craft
-    from shop import shop
+    import shop
     from clock import gameTime
 
     def showTime(a, at):
@@ -293,7 +293,7 @@ label subStatsInvDisplay:
 
         # only add the current page of recipes to the menu
         invSubList = inventoryList[startSubList:endSubList]
-        for item in inventoryList:
+        for item in invSubList:
             menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
 
         # Show prev button on pages after the first page
