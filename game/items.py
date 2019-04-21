@@ -46,7 +46,6 @@ class Seeds(object):
         self.season = seasonGrown
         self.crop = crop
 
-
     def getName(self):
         return self.name
 
