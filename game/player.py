@@ -9,7 +9,7 @@ from clock import gameTime
 class Player(object):
     def __init__(self, exp, money, actions, actionCount):
         self.exp = exp
-        self.lvl = 0
+        self.lvl = 1
         self.lvlUp = 100
         self.money = money
         self.inventory = Inventory()
@@ -77,6 +77,12 @@ class Inventory(list):
     #gets a list of sellable items for the vendor
     def getSellable(self):
         return filter( lambda item: item.sellable == True, self )
+
+    def getList(self):
+        invList = []
+        for item in self:
+            invList.append(item)
+        return invList
 
     # def printSellable(self):
     #     printedItems = []

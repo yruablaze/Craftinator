@@ -259,5 +259,62 @@ label recipeSubList:
             renpy.jump("recipeSubList")
 
 label stats:
-    $ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
+    #$ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
+    narrator "Here is the status page"  (interact=False)
+    python:
+        menu_items = []
+        menu_items.append(("Level %s with %s exp" % (currentPlayer.lvl, currentPlayer.exp), None))
+        menu_items.append(("%s exp required to level up" % (currentPlayer.lvlUp), None))
+        menu_items.append(("%s actions per day, %s used today" % (currentPlayer.actions, currentPlayer.actionCount), None))
+        menu_items.append(("%s Gold" % (currentPlayer.money), None))
+
+        menu_items.append(("View Inventory", "View all"))
+        menu_items.append(("Nevermind", "Nevermind"))
+
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+        if (choice == "Nevermind"):
+            renpy.jump("start")
+        elif(choice == "View all"):
+            renpy.jump("statsInvDisplay")
     jump start
+
+label statsInvDisplay:
+    python:
+        # number of recipes to show per page
+        showPerPage = 6
+        currentPage = 0
+        inventoryList = currentPlayer.inventory.getList()
+
+label subStatsInvDisplay:
+    python:
+        menu_items = []
+        startSubList = currentPage*showPerPage
+        endSubList = (currentPage+1)*showPerPage
+
+        # only add the current page of recipes to the menu
+        invSubList = inventoryList[startSubList:endSubList]
+        for item in inventoryList:
+            menu_items.append(("%s : %s" % (item.name, item.quantity), None))
+
+        #Show prev button on pages after the first page
+        if (currentPage > 0):
+            menu_items.append(("< Prev", "prev"))
+
+        #Show next button on pages before the last page
+        if ( endSubList < len(inventoryList) ):
+            menu_items.append(("Next >", "next"))
+
+        menu_items.append(("Done", "Nevermind"))
+
+        # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
+        choice = menu(menu_items)
+
+        if (choice == "Nevermind"):
+            renpy.jump("stats")
+        elif (choice == "prev"):
+            currentPage -= 1
+            renpy.jump("invSubList")
+        elif (choice == "next"):
+            currentPage += 1
+            renpy.jump("invSubList")
