@@ -20,14 +20,14 @@ class Time(object):
         self.season = season
         self.year = year
 
-    def checkClock(self):
-        return (str(gameTime.seasonFriendly()), str(self.day), str(self.year))
+    def check_clock(self):
+        return (str(gameTime.season_friendly()), str(self.day), str(self.year))
 
 
     # moves time forward! ^_^
     # M - it might be nice to have something that jumps up for the day changes
     # maybe use events.py for that
-    def advanceDay(self):
+    def advance_day(self):
         self.count = 0
         if self.day < 30:
             self.day += 1
@@ -39,11 +39,11 @@ class Time(object):
             self.season = 1
             self.year += 1
 
-        gameTime.checkClock()
+        gameTime.check_clock()
 
 
     # returns the season to be printed
-    def seasonFriendly(self):
+    def season_friendly(self):
         if self.season == Season.SPRING:
             return "Spring"
         elif self.season == Season.SUMMER:

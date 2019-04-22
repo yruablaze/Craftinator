@@ -1,4 +1,4 @@
-﻿# The script of the game goes in this file.
+﻿""" The script of the game goes in this file. """
 
 init python:
     import random
@@ -9,19 +9,19 @@ init python:
     import shop
     from clock import gameTime
 
-    def DisplayTime(a, at):
-        d = Text("It is %s %s in Year %s." % gameTime.checkClock())
+    def display_time(a, at):
+        d = Text("It is %s %s in Year %s." % gameTime.check_clock())
         return d, None
 
-    def DisplayMoney(a, at):
+    def display_money(a, at):
         d = Text("Gold : %s" % currentPlayer.money)
         return d, None
 
-    timeIncrease = 10
+    time_increase = 10
 
 
-image TimeDisplay = DynamicDisplayable(DisplayTime)
-image MoneyDisplay = DynamicDisplayable(DisplayMoney)
+image TimeDisplay = DynamicDisplayable(display_time)
+image MoneyDisplay = DynamicDisplayable(display_money)
 
 
 # Photo by Holly Mandarich on Unsplash
@@ -113,9 +113,9 @@ label forest:
 label foundSomething:
     python:
         narrator( "You found a %s!" % item.name )
-        currentPlayer.inventory.addItem(item)
-        currentPlayer.addCount(timeIncrease)
-        currentPlayer.expGain(1)
+        currentPlayer.inventory.add_item(item)
+        currentPlayer.add_action_count(time_increase)
+        currentPlayer.exp_gain(1)
     jump forest
 
 
@@ -133,26 +133,26 @@ label stall:
     narrator "You are at the vendor stall" (interact=False)
     python:
         choice=None
-        sellableItems = currentPlayer.inventory.getSellable()
+        sellable_items = currentPlayer.inventory.get_sellable()
         menu_items = []
         menu_items.append(("Choose an item to sell:", None))
-        for item in sellableItems:
-            menu_items.append(("Sell one %s for %s gold. You have %s." % (item.name, item.sellPrice, item.quantity), item))
+        for item in sellable_items:
+            menu_items.append(("Sell one %s for %s gold. You have %s." % (item.name, item.sell_price, item.quantity), item))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            currentPlayer.inventory.removeItem(choice)
-            currentPlayer.money += choice.sellPrice
-            narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sellPrice))
+            currentPlayer.inventory.remove_item(choice)
+            currentPlayer.money += choice.sell_price
+            narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sell_price))
     jump stall
 
 
 label market:
     python:
-        buyableItems = shop.getBuyable()
+        buyable_items = shop.get_buyable()
 
 
 label market2:
@@ -161,21 +161,21 @@ label market2:
         cash = currentPlayer.money
         menu_items = []
         menu_items.append(("Choose an item to buy:", None))
-        for item in buyableItems:
-            if cash >= item.buyPrice:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), item))
+        for item in buyable_items:
+            if cash >= item.buy_price:
+                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buy_price), item))
             else:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), None))
+                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buy_price), None))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            buyableItems.remove(choice)
-            currentPlayer.inventory.addItem(choice)
-            currentPlayer.money -= choice.buyPrice
-            narrator ("You bought 1 %s for %s gold" % (choice.name, choice.buyPrice))
+            buyable_items.remove(choice)
+            currentPlayer.inventory.add_item(choice)
+            currentPlayer.money -= choice.buy_price
+            narrator ("You bought 1 %s for %s gold" % (choice.name, choice.buy_price))
     jump market2
 
 
@@ -185,14 +185,14 @@ label crafting:
         menu_items = []
         menu_items.append(("Choose an item to craft:", None))
         for recipe in craft.recipes.values():
-            componentsFound = True
-            componentsText = ""
+            components_found = True
+            components_text = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component.name))
-                if currentPlayer.inventory.containsType(component, quantity) is False:
-                    componentsFound = False
-            if componentsFound is True:
-                menu_items.append(("Make a %s with: %s" % (recipe.product.name, componentsText[0:-2]), recipe))
+                components_text += ("%s %s, " % (quantity, component.name))
+                if currentPlayer.inventory.contains_item(component, quantity) is False:
+                    components_found = False
+            if components_found is True:
+                menu_items.append(("Make a %s with: %s" % (recipe.product.name, components_text[0:-2]), recipe))
         menu_items.append(("View all recipes", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -202,11 +202,11 @@ label crafting:
         elif(choice == "View all"):
             renpy.jump("recipeList")
         else:
-            currentPlayer.inventory.addItem(items.Item(choice.product))
+            currentPlayer.inventory.add_item(items.Item(choice.product))
             for component, quantity in choice.components.iteritems():
-                currentPlayer.inventory.removeItem(items.Item(component), quantity)
-            currentPlayer.expGain(4)
-            currentPlayer.addCount(timeIncrease)
+                currentPlayer.inventory.remove_item(items.Item(component), quantity)
+            currentPlayer.exp_gain(4)
+            currentPlayer.add_action_count(time_increase)
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 
@@ -214,28 +214,28 @@ label crafting:
 label recipeList:
     python:
         # number of recipes to show per page
-        showPerPage = 6
-        currentPage = 0
-        recipesList = craft.recipes.values()
+        SHOW_PER_PAGE = 6
+        current_page = 0
+        recipes_list = craft.recipes.values()
 
 
 label recipeSubList:
     python:
         menu_items = []
-        startSubList = currentPage*showPerPage
-        endSubList = (currentPage+1)*showPerPage
+        START_SUB_LIST = current_page*SHOW_PER_PAGE
+        END_SUB_LIST = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        recipesSubList = recipesList[startSubList:endSubList]
+        recipesSubList = recipes_list[START_SUB_LIST:END_SUB_LIST]
         for recipe in recipesSubList:
-            componentsText = ""
+            components_text = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component.name))
-            menu_items.append((" %s needs: %s" % (recipe.product.name, componentsText[0:-2]), None))
+                components_text += ("%s %s, " % (quantity, component.name))
+            menu_items.append((" %s needs: %s" % (recipe.product.name, components_text[0:-2]), None))
         # Show prev button on pages after the first page
-        if (currentPage > 0):
+        if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
         # Show next button on pages before the last page
-        if ( endSubList < len(recipesList) ):
+        if ( END_SUB_LIST < len(recipes_list) ):
             menu_items.append(("Next >", "next"))
         menu_items.append(("Done", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -243,10 +243,10 @@ label recipeSubList:
         if (choice == "Nevermind"):
             renpy.jump("crafting")
         elif (choice == "prev"):
-            currentPage -= 1
+            current_page -= 1
             renpy.jump("recipeSubList")
         elif (choice == "next"):
-            currentPage += 1
+            current_page += 1
             renpy.jump("recipeSubList")
 
 
@@ -255,8 +255,8 @@ label stats:
     python:
         menu_items = []
         menu_items.append(("Level %s with %s exp" % (currentPlayer.lvl, currentPlayer.exp), None))
-        menu_items.append(("%s exp required to level up" % (currentPlayer.lvlUp), None))
-        menu_items.append(("%s actions per day, %s used today" % (currentPlayer.actions, currentPlayer.actionCount), None))
+        menu_items.append(("%s exp required to level up" % (currentPlayer.lvl_up), None))
+        menu_items.append(("%s actions per day, %s used today" % (currentPlayer.actions, currentPlayer.action_count), None))
         menu_items.append(("%s Gold" % (currentPlayer.money), None))
         menu_items.append(("View Inventory", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
@@ -271,24 +271,24 @@ label stats:
 label statsInvDisplay:
     python:
         # number of recipes to show per page
-        showPerPage = 6
-        currentPage = 0
-        inventoryList = currentPlayer.inventory.getList()
+        SHOW_PER_PAGE = 6
+        current_page = 0
+        inv_list = currentPlayer.inventory.get_list()
 
 label subStatsInvDisplay:
     python:
         menu_items = []
-        startSubList = currentPage*showPerPage
-        endSubList = (currentPage+1)*showPerPage
+        START_SUB_LIST = current_page*SHOW_PER_PAGE
+        END_SUB_LIST = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        invSubList = inventoryList[startSubList:endSubList]
+        invSubList = inv_list[START_SUB_LIST:END_SUB_LIST]
         for item in invSubList:
             menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
         # Show prev button on pages after the first page
-        if (currentPage > 0):
+        if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
         # Show next button on pages before the last page
-        if (endSubList < len(inventoryList)):
+        if (END_SUB_LIST < len(inv_list)):
             menu_items.append(("Next >", "next"))
         menu_items.append(("Done", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -296,8 +296,8 @@ label subStatsInvDisplay:
         if (choice == "Nevermind"):
             renpy.jump("stats")
         elif (choice == "prev"):
-            currentPage -= 1
+            current_page -= 1
             renpy.jump("subStatsInvDisplay")
         elif (choice == "next"):
-            currentPage += 1
+            current_page += 1
             renpy.jump("subStatsInvDisplay")

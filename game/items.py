@@ -10,11 +10,11 @@ Tags are not used currently, and may need some more thought
 
 
 class ItemType(object):
-    def __init__(self, name, sellable, baseBuy, baseSell, tags):
+    def __init__(self, name, sellable, base_buy, base_sell, tags):
         self.name = name
         self.sellable = sellable
-        self.baseBuy = baseBuy
-        self.baseSell = baseSell
+        self.base_buy = base_buy
+        self.base_sell = base_sell
         self.tags = tags
 
 
@@ -29,12 +29,12 @@ class Item(object):
             self.star = 1
 
     @property
-    def buyPrice(self):
-        return self.type.baseBuy * self.star
+    def buy_price(self):
+        return self.type.base_buy * self.star
 
     @property
-    def sellPrice(self):
-        return self.type.baseSell * self.star
+    def sell_price(self):
+        return self.type.base_sell * self.star
 
     @property
     def name(self):
@@ -48,30 +48,30 @@ class Item(object):
 class Seeds(object):
     def __init__(self, name, growTime, refreshTime, seasonGrown, crop):
         self.name = name
-        self.growTime = growTime
+        self.grow_time = growTime
         self.refresh = refreshTime
         self.season = seasonGrown
         self.crop = crop
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def harvestCrop(self):
+    def harvest_crop(self):
         return self.crop
 
-    def getGrowTime(self):
+    def get_grow_time(self):
         return self.growTime
 
-    def growableCheck(self):
+    def growable_check(self):
         return self.season
 
 
-class seedPlot(object):
+class SeedStar(object):
     def __init__(self, seeds, star=None):
         self.seed = seeds
         self.star = star
 
-    def upStar(self, num):
+    def up_star(self, num):
         self.star = num
 
 

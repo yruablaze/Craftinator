@@ -15,9 +15,9 @@ class Recipe(object):
         self.product = product
         self.components = components
 
-    def craftCheck(self, inventory):
-        if inventory.containsType(component, quantity) is True:
-            return quantity, component, self.product
+    # def craftCheck(self, inventory):
+    #     if inventory.containsType(component, quantity) is True:
+    #         return quantity, component, self.product
 
 
 recipes = {
