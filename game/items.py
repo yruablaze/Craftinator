@@ -1,5 +1,15 @@
+"""Where Items are made
+
+Items are initialized as ItemType Class
+then are turned into the Item Class
+
+We were talking about reworking how these work
+And initializing items from a CSV sheet
+Tags are not used currently, and may need some more thought
+"""
+
+
 class ItemType(object):
-    # edible will affect eating food and cooking later
     def __init__(self, name, sellable, baseBuy, baseSell, tags):
         self.name = name
         self.sellable = sellable
@@ -13,7 +23,6 @@ class Item(object):
     def __init__(self, itemType, quantity=1, star=None):
         self.type = itemType
         self.quantity = quantity
-
         if star:
             self.star = star
         else:
@@ -34,8 +43,6 @@ class Item(object):
     @property
     def sellable(self):
         return self.type.sellable
-
-
 
 
 class Seeds(object):
@@ -68,7 +75,6 @@ class seedPlot(object):
         self.star = num
 
 
-# later: if there isn't a way to use it it should be sellable
 # (self, name, sellable, buy, sell, tags)
 # raw food  = ItemType("", True, 4, 2, ["edible"])
 blueberry = ItemType("blueberry", True, 3, 2, ["edible", "sweet"])

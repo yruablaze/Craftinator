@@ -1,8 +1,14 @@
 import random
 from collections import defaultdict
-
 from items import *
 from clock import gameTime
+
+"""The Player
+
+Contains the player class called with currentPlayer
+Contains the player inventory a sub class of the player class
+Adds items to currentPlayer inventory at page bottom
+"""
 
 
 class Player(object):
@@ -43,12 +49,11 @@ class Player(object):
 class Inventory(list):
     def addItem(self, item):
         invItem = self.findType(item)
-        if invItem == None:
+        if invItem is None:
             self.append(item)
         else:
             invItem.quantity += item.quantity
 
-    # def remove(self, item) comes for free :)
     def removeItem(self, item, num=1):
         invItem = self.findType(item)
         if invItem.quantity == num:
@@ -72,8 +77,9 @@ class Inventory(list):
 
     # gets a list of sellable items for the vendor
     def getSellable(self):
-        return filter( lambda item: item.sellable == True, self )
+        return filter( lambda item: item.sellable is True, self )
 
+    # get whole inventory as a list
     def getList(self):
         invList = []
         for item in self:
@@ -81,10 +87,12 @@ class Inventory(list):
         return invList
 
 
+# Player(exp, money, actions, actionCount)
 currentPlayer = Player(0, 15, 10, 0)
+
 for i in range(5):
     currentPlayer.inventory.addItem(Item(bark))
-currentPlayer.inventory.addItem(Item(blueberry)) # top quality blueberry
+currentPlayer.inventory.addItem(Item(blueberry))
 currentPlayer.inventory.addItem(Item(blueberry))
 currentPlayer.inventory.addItem(Item(blueberry))
 currentPlayer.inventory.addItem(Item(apple))

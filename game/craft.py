@@ -1,5 +1,14 @@
 from items import *
 
+"""Recipes!
+
+contains the list of recipes for crafting
+a tuple (item, dictionary) but only by choice
+
+used to contain all of crafting
+the class doesn't do much
+"""
+
 
 class Recipe(object):
     def __init__(self, product, components):
