@@ -121,6 +121,7 @@ label foundSomething:
 
 label field:
     narrator "You are in the field"
+    $ craft.add_to_recipes("glass")
     jump start
 
 
@@ -137,7 +138,7 @@ label stall:
         menu_items = []
         menu_items.append(("Choose an item to sell:", None))
         for item in sellable_items:
-            menu_items.append(("Sell one %s for %s gold. You have %s." % (item.name, item.sell_price, item.quantity), item))
+            menu_items.append(("Sell %s for %s gold. You have %s." % (item.name, item.sell_price, item.quantity), item))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
@@ -146,7 +147,7 @@ label stall:
         else:
             currentPlayer.inventory.remove_item(choice)
             currentPlayer.money += choice.sell_price
-            narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sell_price))
+            narrator ("You sold %s for %s gold" % (choice.name, choice.sell_price))
     jump stall
 
 
@@ -163,9 +164,9 @@ label market2:
         menu_items.append(("Choose an item to buy:", None))
         for item in buyable_items:
             if cash >= item.buy_price:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buy_price), item))
+                menu_items.append(("Buy %s for %s gold." % (item.name, item.buy_price), item))
             else:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buy_price), None))
+                menu_items.append(("Buy %s for %s gold." % (item.name, item.buy_price), None))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
@@ -175,7 +176,7 @@ label market2:
             buyable_items.remove(choice)
             currentPlayer.inventory.add_item(choice)
             currentPlayer.money -= choice.buy_price
-            narrator ("You bought 1 %s for %s gold" % (choice.name, choice.buy_price))
+            narrator ("You bought %s for %s gold" % (choice.name, choice.buy_price))
     jump market2
 
 
@@ -254,10 +255,10 @@ label stats:
     narrator "Here is the status page"  (interact = False)
     python:
         menu_items = []
-        menu_items.append(("Level %s with %s exp" % (currentPlayer.lvl, currentPlayer.exp), None))
-        menu_items.append(("%s exp required to level up" % (currentPlayer.lvl_up), None))
-        menu_items.append(("%s actions per day, %s used today" % (currentPlayer.actions, currentPlayer.action_count), None))
-        menu_items.append(("%s Gold" % (currentPlayer.money), None))
+        menu_items.append(("{color=#339900}Level %s with %s exp{/color}" % (currentPlayer.lvl, currentPlayer.exp), None))
+        menu_items.append(("{color=#339900}%s exp required to level up{/color}" % (currentPlayer.lvl_up), None))
+        menu_items.append(("{color=#339900}%s actions per day, %s used today{/color}" % (currentPlayer.actions, currentPlayer.action_count), None))
+        menu_items.append(("{color=#339900}%s Gold{/color}" % (currentPlayer.money), None))
         menu_items.append(("View Inventory", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -274,6 +275,7 @@ label statsInvDisplay:
         SHOW_PER_PAGE = 6
         current_page = 0
         inv_list = currentPlayer.inventory.get_list()
+
 
 label subStatsInvDisplay:
     python:

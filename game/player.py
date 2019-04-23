@@ -1,13 +1,12 @@
-from collections import defaultdict
-from items import *
-from clock import gameTime
-
 """The Player
 
 Contains the player class called with currentPlayer
 Contains the player inventory a sub class of the player class
 Adds items to currentPlayer inventory at page bottom
 """
+from collections import defaultdict
+from items import *
+from clock import gameTime
 
 
 class Player(object):
@@ -27,7 +26,7 @@ class Player(object):
             self.lvl += 1
             self.exp -= self.lvl_up
             self.lvl_up = self.lvl_up * 1.1
-            if (self.lvl % 2 == 0):
+            if self.lvl % 2 == 0:
                 self.add_actions(1)
 
     # updates the count of actions and
@@ -76,7 +75,7 @@ class Inventory(list):
 
     # gets a list of sellable items for the vendor
     def get_sellable(self):
-        return filter( lambda item: item.sellable is True, self )
+        return filter(lambda item: item.sellable is True, self)
 
     # get whole inventory as a list
     def get_list(self):

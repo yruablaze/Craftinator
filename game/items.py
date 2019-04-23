@@ -46,11 +46,11 @@ class Item(object):
 
 
 class Seeds(object):
-    def __init__(self, name, growTime, refreshTime, seasonGrown, crop):
+    def __init__(self, name, grow_time, refresh, season_grown, crop):
         self.name = name
-        self.grow_time = growTime
-        self.refresh = refreshTime
-        self.season = seasonGrown
+        self.grow_time = grow_time
+        self.refresh = refresh
+        self.season = season_grown
         self.crop = crop
 
     def get_name(self):
@@ -60,7 +60,7 @@ class Seeds(object):
         return self.crop
 
     def get_grow_time(self):
-        return self.growTime
+        return self.grow_time
 
     def growable_check(self):
         return self.season
@@ -77,8 +77,8 @@ class SeedStar(object):
 
 # (self, name, sellable, buy, sell, tags)
 # raw food  = ItemType("", True, 4, 2, ["edible"])
-blueberry = ItemType("blueberry", True, 3, 2, ["edible", "sweet"])
-shijemi = ItemType("shijemi", True, 3, 2, ["edible", "mushroom"])
+blueberry = ItemType("blueberry", True, 3, 1, ["edible", "sweet"])
+shijemi = ItemType("shijemi", True, 3, 1, ["edible", "mushroom"])
 brown_mushroom = ItemType("brown mushroom", True, 3, 1, ["edible", "mushroom"])
 apple = ItemType("apple", True, 4, 2, ["edible", "crop"])
 onion = ItemType("onion", True, 3, 1, ["edible", "crop"])
@@ -106,6 +106,6 @@ brick = ItemType("brick", True, 4, 2, [])
 pole = ItemType("pole", True, 5, 0, [])
 glass = ItemType("glass", True, 3, 0, [])
 
-# seeds = Seed("name", growTime, refreshTime, ["seasonsGrown"])
+# seeds = Seed("name", grow_time, refresh, ["season_grown"], crop)
 onion_seed = Seeds("onion seed", 5, None, ["Summer", "Fall"], onion)
 strawberry_seed = Seeds("strawberry seed", 9, 3, ["Summer"], strawberry)

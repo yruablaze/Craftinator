@@ -1,9 +1,7 @@
-## from Singleton import Singleton
-# having lots of problems with singleton class
-# can't use functions that should work.. gives attributeErrors saying
-# singleton instance has no attribute ____
+"""Time and Time progression
 
-# going to use a regular class instead
+Counts the days, seasons and years
+"""
 
 
 class Season:
