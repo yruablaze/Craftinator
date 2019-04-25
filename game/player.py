@@ -88,8 +88,9 @@ class Inventory(list):
 # Player(exp, money, actions, action_count)
 currentPlayer = Player(0, 15, 10, 0)
 
+# Starting items could be in a .csv instead of this
 for i in range(5):
-    currentPlayer.inventory.add_item(Item(bark))
+    currentPlayer.inventory.add_item(Item(ITEM['bark']))
 for i in range(3):
-    currentPlayer.inventory.add_item(Item(blueberry))
-currentPlayer.inventory.add_item(Item(apple))
+    currentPlayer.inventory.add_item(Item(ITEM['blueberry']))
+currentPlayer.inventory.add_item(Item(ITEM['apple']))

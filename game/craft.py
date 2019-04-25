@@ -15,19 +15,20 @@ class Recipe(object):
         self.components = components
 
 
+# this is a bit messy right now, but once recipes are in a csv, it'll be nicer
 recipes = {
-    "string": Recipe(string, {bark: 2}),
-    "cloth": Recipe(cloth, {string: 4, twig: 1}),
-    "brick": Recipe(brick, {stone: 2}),
-    "fruit_dish": Recipe(fruit_dish, {blueberry: 3, apple: 1}),
+    "string": Recipe(ITEM['string'], {ITEM['bark']: 2}),
+    "cloth": Recipe(ITEM['cloth'], {ITEM['string']: 4, ITEM['twig']: 1}),
+    "brick": Recipe(ITEM['brick'], {ITEM['stone']: 2}),
+    "fruit_dish": Recipe(ITEM['fruit_dish'], {ITEM['blueberry']: 3, ITEM['apple']: 1}),
 }
 
 hidden_recipes = {
-    "glass": Recipe(glass, {sand: 3}),
-    "dirt": Recipe(dirt, {pebbles: 5}),
-    "pebbles": Recipe(pebbles, {stone: 1}),
-    "twig": Recipe(twig, {branch: 1}),
-    "bark": Recipe(bark, {branch: 1}),
+    "glass": Recipe(ITEM['glass'], {ITEM['sand']: 3}),
+    "dirt": Recipe(ITEM['dirt'], {ITEM['pebbles']: 5}),
+    "pebbles": Recipe(ITEM['pebbles'], {ITEM['stone']: 1}),
+    "twig": Recipe(ITEM['twig'], {ITEM['branch']: 1}),
+    "bark": Recipe(ITEM['bark'], {ITEM['branch']: 1}),
 }
 
 """tested(gives error) and unused

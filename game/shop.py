@@ -11,10 +11,17 @@ import random
 from items import *
 
 
+# add buyable items to the BUY_ITEMS_LIST
+# make it a constant, since it only needs to be done once
+BUY_ITEMS_LIST = []
+for k, v in ITEM.items():
+    if v.buyable:
+        BUY_ITEMS_LIST.append(v)
+
+
 # for market - makes a random list from buy_items_list, one thing per line
 def get_buyable(avail_items=3):
-    buy_items_list = [string, cloth, fruit_dish, apple, dirt]
     buyable_list = []
     for i in range(avail_items):
-        buyable_list.append(Item(random.choice(buy_items_list)))
+        buyable_list.append(Item(random.choice(BUY_ITEMS_LIST)))
     return buyable_list

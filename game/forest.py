@@ -17,14 +17,15 @@ class ForestLocation(object):
         # over - to find recipes and seeds this can't do Item here
         return Item(random.choice(self.itemTypes))
 
-
-WILD = ForestLocation([blueberry, blueberry, apple, \
-                       apple, vine, onion, ginger, strawberry, strawberry, mint, \
-                       brown_mushroom])
-BRIDGE = ForestLocation([stone, shijemi, pebbles, \
-                         pebbles, pebbles, vine, vine])
-HUT = ForestLocation([twig, twig, shijemi, branch, \
-                      branch, branch, branch, bark, bark])
-BOG = ForestLocation([twig, blueberry, vine, vine, twig, dirt])
-MINE = ForestLocation([sand, sand, sand, pebbles, \
-                       pebbles, dirt, stone, stone, stone])
+# this is a bit messy right now, but once these are in a csv, it'll be nicer
+WILD = ForestLocation([ITEM['blueberry'], ITEM['blueberry'], ITEM['apple'], \
+                       ITEM['apple'], ITEM['vine'], ITEM['onion'], ITEM['ginger'], \
+                       ITEM['strawberry'], ITEM['strawberry'], ITEM['mint'], \
+                       ITEM['brown_mushroom']])
+BRIDGE = ForestLocation([ITEM['stone'], ITEM['shijemi'], ITEM['pebbles'], \
+                         ITEM['pebbles'], ITEM['pebbles'], ITEM['vine'], ITEM['vine']])
+HUT = ForestLocation([ITEM['twig'], ITEM['twig'], ITEM['shijemi'], ITEM['branch'], \
+                      ITEM['branch'], ITEM['branch'], ITEM['branch'], ITEM['bark'], ITEM['bark']])
+BOG = ForestLocation([ITEM['twig'], ITEM['blueberry'], ITEM['vine'], ITEM['vine'], ITEM['twig'], ITEM['dirt']])
+MINE = ForestLocation([ITEM['sand'], ITEM['sand'], ITEM['sand'], ITEM['pebbles'], \
+                       ITEM['pebbles'], ITEM['dirt'], ITEM['stone'], ITEM['stone'], ITEM['stone']])
