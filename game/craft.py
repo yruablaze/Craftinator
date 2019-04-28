@@ -17,7 +17,7 @@ class Recipe(object):
         self.components = components
 
     def add_components(self, name, quantity):
-        self.components = self.components
+        self.components[ITEM[name]] = quantity
 
 
 # this is a bit messy right now, but once recipes are in a csv, it'll be nicer
@@ -36,14 +36,12 @@ def add_to_recipes(key):
 
 with open(renpy.loader.transfn("recipes.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
-        _current_recipes = {}
+        _current_recipe_line = {}
         for k, v in row.items():
-            if k in recipes:
-                _blup = _current_recipes['product'].lower().replace(" ", "_")
-                _blup.add_components('component', 'quantity')
-                break
-            else:
-                _current_recipes[k.lower()] = v
-        _recipe_name = str(_current_recipes['name'])
-        _recipe_product = _current_recipes['product'].lower().replace(" ", "_")
-        recipes[_recipe_name] = Recipe(ITEM[_recipe_product], {ITEM[_current_recipes['component']]: _current_recipes['quantity']})
+            _current_recipe_line[k.lower()] = v
+        _recipe_component = _current_recipe_line['component'].lower().replace(" ", "_")
+        if _current_recipe_line['name'] in recipes:
+            recipes[_current_recipe_line['name']].add_components(_recipe_component, _current_recipe_line['quantity'])
+        else:
+            _recipe_product = _current_recipe_line['product'].lower().replace(" ", "_")
+            recipes[_current_recipe_line['name']] = Recipe(ITEM[_recipe_product], {ITEM[_recipe_component]: _current_recipe_line['quantity']})
