@@ -7,6 +7,8 @@ used to contain all of crafting
 the class doesn't do much
 """
 from items import *
+import csv
+import renpy
 
 
 class Recipe(object):
@@ -14,31 +16,34 @@ class Recipe(object):
         self.product = product
         self.components = components
 
+    def add_components(self, name, quantity):
+        self.components = self.components
+
 
 # this is a bit messy right now, but once recipes are in a csv, it'll be nicer
-recipes = {
-    "string": Recipe(ITEM['string'], {ITEM['bark']: 2}),
-    "cloth": Recipe(ITEM['cloth'], {ITEM['string']: 4, ITEM['twig']: 1}),
-    "brick": Recipe(ITEM['brick'], {ITEM['stone']: 2}),
-    "fruit_dish": Recipe(ITEM['fruit_dish'], {ITEM['blueberry']: 3, ITEM['apple']: 1}),
-}
+recipes = {}
 
-hidden_recipes = {
-    "glass": Recipe(ITEM['glass'], {ITEM['sand']: 3}),
-    "dirt": Recipe(ITEM['dirt'], {ITEM['pebbles']: 5}),
-    "pebbles": Recipe(ITEM['pebbles'], {ITEM['stone']: 1}),
-    "twig": Recipe(ITEM['twig'], {ITEM['branch']: 1}),
-    "bark": Recipe(ITEM['bark'], {ITEM['branch']: 1}),
-}
+hidden_recipes = {}
+# "brick": Recipe(ITEM['brick'], {ITEM['stone']: 2})
 
-"""tested(gives error) and unused
 
 def add_to_recipes(key):
     if key in hidden_recipes:
-        thing = get(key[])
+        thing = hidden_recipes[key]
         recipes[key] = thing
-        del hidden_recipes.key
+        del hidden_recipes[key]
 
-"fruit_dish": Recipe((fruit_dish, {blueberry: 3, apple: 1}), \
-(fruit_dish, {apple: 2, strawberry: 2})),
-"""
+
+with open(renpy.loader.transfn("recipes.csv")) as f:
+    for row in csv.DictReader(f, skipinitialspace=True):
+        _current_recipes = {}
+        for k, v in row.items():
+            if k in recipes:
+                _blup = _current_recipes['product'].lower().replace(" ", "_")
+                _blup.add_components('component', 'quantity')
+                break
+            else:
+                _current_recipes[k.lower()] = v
+        _recipe_name = str(_current_recipes['name'])
+        _recipe_product = _current_recipes['product'].lower().replace(" ", "_")
+        recipes[_recipe_name] = Recipe(ITEM[_recipe_product], {ITEM[_current_recipes['component']]: _current_recipes['quantity']})

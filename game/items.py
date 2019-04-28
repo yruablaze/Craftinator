@@ -78,7 +78,6 @@ class SeedStar(object):
         self.star = num
 
 
-# constant that's a dictionary of dictionaries, oh my!
 # e.g. {'apple': {'name': 'apple', sellable': 'TRUE', 'edible': 'TRUE'...}...}
 ITEM = {}
 with open(renpy.loader.transfn("items.csv")) as f:

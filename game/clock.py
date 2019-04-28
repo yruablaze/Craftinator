@@ -51,4 +51,5 @@ class Time(object):
         elif self.season == Season.WINTER:
             return "Winter"
 
+
 gameTime = Time(1, Season.SPRING, 1)

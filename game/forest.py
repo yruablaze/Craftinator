@@ -17,6 +17,7 @@ class ForestLocation(object):
         # over - to find recipes and seeds this can't do Item here
         return Item(random.choice(self.itemTypes))
 
+
 # this is a bit messy right now, but once these are in a csv, it'll be nicer
 WILD = ForestLocation([ITEM['blueberry'], ITEM['blueberry'], ITEM['apple'], \
                        ITEM['apple'], ITEM['vine'], ITEM['onion'], ITEM['ginger'], \
