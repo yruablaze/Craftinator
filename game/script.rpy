@@ -121,7 +121,7 @@ label foundSomething:
 
 label field:
     narrator "You are in the field"
-    $ craft.add_to_recipes("glass")
+    $ craft.find_recipe("glass")
     jump start
 
 
