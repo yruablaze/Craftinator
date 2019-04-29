@@ -1,10 +1,7 @@
 """Where Items are made
 
-Items are initialized as ItemType Class
-then are turned into the Item Class
+Items are a subclass of ItemType.
 
-We were talking about reworking how these work
-And initializing items from a CSV sheet
 Tags are not used currently, and may need some more thought
 """
 import csv
@@ -14,17 +11,19 @@ import renpy
 class ItemType(object):
     def __init__(self, name, sellable, buyable, base_buy, base_sell, tags):
         self.name = name
-        self.sellable = sellable == 'TRUE'
+        self.sellable = sellable == 'TRUE' or sellable is True
         self.base_buy = int(base_buy)
         self.base_sell = int(base_sell)
         self.tags = tags
-        self.buyable = buyable == 'TRUE'
+        self.buyable = buyable == 'TRUE' or buyable is True
 
 
-class Item(object):
+class Item(ItemType):
     # Star value will alter buy and sell price later
-    def __init__(self, itemType, quantity=1, star=None):
-        self.type = itemType
+    def __init__(self, item_type, quantity=1, star=None):
+        ItemType.__init__(self, item_type.name, item_type.sellable,
+                          item_type.buyable, item_type.base_buy,
+                          item_type.base_sell, item_type.tags)
         self.quantity = quantity
         if star:
             self.star = star
@@ -33,19 +32,11 @@ class Item(object):
 
     @property
     def buy_price(self):
-        return self.type.base_buy * self.star
+        return self.base_buy * self.star
 
     @property
     def sell_price(self):
-        return self.type.base_sell * self.star
-
-    @property
-    def name(self):
-        return self.type.name
-
-    @property
-    def sellable(self):
-        return self.type.sellable
+        return self.base_sell * self.star
 
 
 class Seeds(object):
@@ -55,18 +46,6 @@ class Seeds(object):
         self.refresh = refresh
         self.season = season_grown
         self.crop = crop
-
-    def get_name(self):
-        return self.name
-
-    def harvest_crop(self):
-        return self.crop
-
-    def get_grow_time(self):
-        return self.grow_time
-
-    def growable_check(self):
-        return self.season
 
 
 class SeedStar(object):

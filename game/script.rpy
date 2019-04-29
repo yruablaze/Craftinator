@@ -1,5 +1,4 @@
 ﻿""" The script of the game goes in this file. """
-
 init python:
     import random
     import forest
@@ -19,9 +18,13 @@ init python:
 
     time_increase = 10
 
+    TEXT_COLOR = "#339900"
 
-image TimeDisplay = DynamicDisplayable(display_time)
-image MoneyDisplay = DynamicDisplayable(display_money)
+    # number of recipes to show per page
+    SHOW_PER_PAGE = 6
+
+image TIME_DISPLAY = DynamicDisplayable(display_time)
+image MONEY_DISPLAY = DynamicDisplayable(display_money)
 
 
 # Photo by Holly Mandarich on Unsplash
@@ -52,12 +55,12 @@ image Stats = "Stats.jpg"
 
 label start:
     scene Crossroads
-    show TimeDisplay at left
+    show TIME_DISPLAY at left
 
     menu:
         "Visit the Forest":
             scene Forest
-            show TimeDisplay at left
+            show TIME_DISPLAY at left
             # the narrator line should run once
             # narrator "The forest is an excellent spot to find items!"
             jump forest
@@ -69,19 +72,19 @@ label start:
             jump barn
         "Open a Vendor Stall":
             scene Stall
-            show TimeDisplay at left
-            show MoneyDisplay at top
+            show TIME_DISPLAY at left
+            show MONEY_DISPLAY at top
             jump stall
         "Visit the Market":
             scene Market
-            show MoneyDisplay at top
+            show MONEY_DISPLAY at top
             jump market
         "Go to the Crafting Bench":
             scene Crafting
             jump crafting
         "View Stats":
             scene Stats
-            show TimeDisplay at left
+            show TIME_DISPLAY at left
             jump stats
         "Quit":
             return
@@ -184,7 +187,7 @@ label crafting:
     narrator "You are at the crafting bench" (interact=False)
     python:
         menu_items = []
-        menu_items.append(("Choose an item to craft:", None))
+        menu_items.append(("{color=%s}Choose an item to craft:{/color}" % (TEXT_COLOR), None))
         for recipe in craft.recipes.values():
             components_found = True
             components_text = ""
@@ -214,8 +217,6 @@ label crafting:
 
 label recipeList:
     python:
-        # number of recipes to show per page
-        SHOW_PER_PAGE = 6
         current_page = 0
         recipes_list = craft.recipes.values()
 
@@ -223,10 +224,10 @@ label recipeList:
 label recipeSubList:
     python:
         menu_items = []
-        START_SUB_LIST = current_page*SHOW_PER_PAGE
-        END_SUB_LIST = (current_page+1)*SHOW_PER_PAGE
+        start_sub_list = current_page*SHOW_PER_PAGE
+        end_sub_list = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        recipesSubList = recipes_list[START_SUB_LIST:END_SUB_LIST]
+        recipesSubList = recipes_list[start_sub_list:end_sub_list]
         for recipe in recipesSubList:
             components_text = ""
             for component, quantity in recipe.components.iteritems():
@@ -236,7 +237,7 @@ label recipeSubList:
         if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
         # Show next button on pages before the last page
-        if ( END_SUB_LIST < len(recipes_list) ):
+        if ( end_sub_list < len(recipes_list) ):
             menu_items.append(("Next >", "next"))
         menu_items.append(("Done", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -255,10 +256,10 @@ label stats:
     narrator "Here is the status page"  (interact = False)
     python:
         menu_items = []
-        menu_items.append(("{color=#339900}Level %s with %s exp{/color}" % (currentPlayer.lvl, currentPlayer.exp), None))
-        menu_items.append(("{color=#339900}%s exp required to level up{/color}" % (currentPlayer.lvl_up), None))
-        menu_items.append(("{color=#339900}%s actions per day, %s used today{/color}" % (currentPlayer.actions, currentPlayer.action_count), None))
-        menu_items.append(("{color=#339900}%s Gold{/color}" % (currentPlayer.money), None))
+        menu_items.append(("{color=%s}Level %s with %s exp{/color}" % (TEXT_COLOR, currentPlayer.lvl, currentPlayer.exp), None))
+        menu_items.append(("{color=%s}%s exp required to level up{/color}" % (TEXT_COLOR, currentPlayer.lvl_up), None))
+        menu_items.append(("{color=%s}%s actions per day, %s used today{/color}" % (TEXT_COLOR, currentPlayer.actions, currentPlayer.action_count), None))
+        menu_items.append(("{color=%s}%s Gold{/color}" % (TEXT_COLOR, currentPlayer.money), None))
         menu_items.append(("View Inventory", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -271,8 +272,6 @@ label stats:
 
 label statsInvDisplay:
     python:
-        # number of recipes to show per page
-        SHOW_PER_PAGE = 6
         current_page = 0
         inv_list = currentPlayer.inventory.get_list()
 
@@ -280,17 +279,17 @@ label statsInvDisplay:
 label subStatsInvDisplay:
     python:
         menu_items = []
-        START_SUB_LIST = current_page*SHOW_PER_PAGE
-        END_SUB_LIST = (current_page+1)*SHOW_PER_PAGE
+        start_sub_list = current_page*SHOW_PER_PAGE
+        end_sub_list = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        invSubList = inv_list[START_SUB_LIST:END_SUB_LIST]
+        invSubList = inv_list[start_sub_list:end_sub_list]
         for item in invSubList:
-            menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
+            menu_items.append(("{color=%s}%s : %s{/color}" % (TEXT_COLOR, item.name, item.quantity), None))
         # Show prev button on pages after the first page
         if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
         # Show next button on pages before the last page
-        if (END_SUB_LIST < len(inv_list)):
+        if (end_sub_list < len(inv_list)):
             menu_items.append(("Next >", "next"))
         menu_items.append(("Done", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
