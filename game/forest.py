@@ -13,27 +13,32 @@ class ForestLocation(object):
     def __init__(self, itemTypes):
         self.itemTypes = itemTypes
 
+    def add_item(self, item, chance):
+        self.itemTypes[ITEM[item]] = chance
+
     def search(self):
-        return Item(random.choice(self.itemTypes))
+        sum_chance = 0
+        for num in [self.itemTypes]:
+            sum_chance += num
+        random_weight = random.randint(1, sum_chance)
+        for chance in [self.itemTypes]:
+            random_weight = random_weight - chance
+            if random_weight <= 0:
+                return self.itemTypes
 
 
-# randomWeight = rand(1, sumOfWeights)
-# for each item in array
-#     randomWeight = randomWeight - item.Weight
-#     if randomWeight <= 0
-#         return item
-
-# this is a bit messy right now, but once these are in a csv, it'll be nicer
-WILD = ForestLocation([ITEM['blueberry'], ITEM['blueberry'], ITEM['apple'],
-                       ITEM['apple'], ITEM['vine'], ITEM['onion'], ITEM['ginger'],
-                       ITEM['strawberry'], ITEM['strawberry'], ITEM['mint'],
-                       ITEM['brown_mushroom']])
-BRIDGE = ForestLocation([ITEM['stone'], ITEM['shijemi'], ITEM['pebbles'],
-                         ITEM['pebbles'], ITEM['pebbles'], ITEM['vine'], ITEM['vine']])
-HUT = ForestLocation([ITEM['twig'], ITEM['twig'], ITEM['shijemi'], ITEM['branch'],
-                      ITEM['branch'], ITEM['branch'], ITEM['branch'], ITEM['bark'], ITEM['bark']])
-BOG = ForestLocation([ITEM['twig'], ITEM['blueberry'], ITEM['vine'],
-                     ITEM['vine'], ITEM['twig'], ITEM['dirt']])
-MINE = ForestLocation([ITEM['sand'], ITEM['sand'], ITEM['sand'],
-                       ITEM['pebbles'], ITEM['pebbles'], ITEM['dirt'],
-                       ITEM['stone'], ITEM['stone'], ITEM['stone']])
+with open(renpy.loader.transfn("ForestLocations.csv")) as f:
+    _locations_list = []
+    for row in csv.DictReader(f, skipinitialspace=True):
+        _current_line = {}
+        for k, v in row.items():
+            _current_line[k.lower()] = v
+        _location_item = _current_line['item'].lower().replace(" ", "_")
+        _chance = int(_current_line['chance'])
+        _location = _current_line['location'].upper().replace(" ", "_")
+        if _location in _locations_list:
+            _location.add_item(_location_item, _chance)
+        else:
+            _locations_list.append(_location)
+            _location = ForestLocation({ITEM[_location_item]: _chance})
+# string object can't do add_item
