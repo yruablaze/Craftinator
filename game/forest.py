@@ -16,15 +16,16 @@ class ForestLocation(object):
     def add_item(self, item, chance):
         self.itemTypes[ITEM[item]] = chance
 
+# TypeError: unsupported operand type(s) for +=: 'int' and 'ItemType' on line 22
     def search(self):
-        sum_chance = 0
-        for num in [self.itemTypes]:
-            sum_chance += num
-        random_weight = random.randint(1, sum_chance)
-        for chance in [self.itemTypes]:
+        _sum_chance = 0
+        for num in self.itemTypes.iterkeys():
+            _sum_chance += num
+        random_weight = random.randint(1, _sum_chance)
+        for item, num in self.itemTypes.interitems():
             random_weight = random_weight - chance
             if random_weight <= 0:
-                return self.itemTypes
+                return item
 
 
 with open(renpy.loader.transfn("ForestLocations.csv")) as f:
@@ -35,10 +36,26 @@ with open(renpy.loader.transfn("ForestLocations.csv")) as f:
             _current_line[k.lower()] = v
         _location_item = _current_line['item'].lower().replace(" ", "_")
         _chance = int(_current_line['chance'])
-        _location = _current_line['location'].upper().replace(" ", "_")
-        if _location in _locations_list:
-            _location.add_item(_location_item, _chance)
+        if _current_line['location'] not in _locations_list:
+            if _current_line['location'] == "WILD":
+                WILD = ForestLocation({ITEM[_location_item]: _chance})
+            elif _current_line['location'] == "BRIDGE":
+                BRIDGE = ForestLocation({ITEM[_location_item]: _chance})
+            elif _current_line['location'] == "HUT":
+                HUT = ForestLocation({ITEM[_location_item]: _chance})
+            elif _current_line['location'] == "BOG":
+                BOG = ForestLocation({ITEM[_location_item]: _chance})
+            elif _current_line['location'] == "MINE":
+                MINE = ForestLocation({ITEM[_location_item]: _chance})
+            _locations_list.append(_current_line['location'])
         else:
-            _locations_list.append(_location)
-            _location = ForestLocation({ITEM[_location_item]: _chance})
-# string object can't do add_item
+            if _current_line['location'] == "WILD":
+                WILD.add_item(_location_item, _chance)
+            elif _current_line['location'] == "BRIDGE":
+                BRIDGE.add_item(_location_item, _chance)
+            elif _current_line['location'] == "HUT":
+                HUT.add_item(_location_item, _chance)
+            elif _current_line['location'] == "BOG":
+                BOG.add_item(_location_item, _chance)
+            elif _current_line['location'] == "MINE":
+                MINE.add_item(_location_item, _chance)
