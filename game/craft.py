@@ -36,7 +36,7 @@ def find_recipe(key):
     return False
 
 
-with open(renpy.loader.transfn("recipes.csv")) as f:
+with open(renpy.loader.transfn("data/recipes.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}
         for k, v in row.items():
@@ -50,7 +50,7 @@ with open(renpy.loader.transfn("recipes.csv")) as f:
             hidden_recipes[_current_line['name']] = Recipe(ITEM_TYPES[_product], {ITEM_TYPES[_component]: _quantity})
 
 
-with open(renpy.loader.transfn("hidden.csv")) as f:
+with open(renpy.loader.transfn("data/hidden.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}
         for k, v in row.items():

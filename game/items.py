@@ -59,7 +59,7 @@ class SeedStar(object):
 
 # e.g. {'apple': {'name': 'apple', sellable': 'TRUE', 'edible': 'TRUE'...}...}
 ITEM_TYPES = {}
-with open(renpy.loader.transfn("items.csv")) as f:
+with open(renpy.loader.transfn("data/items.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_items = {}
         for k, v in row.items():

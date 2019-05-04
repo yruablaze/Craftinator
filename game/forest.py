@@ -31,7 +31,7 @@ class ForestLocation(object):
 LOCATIONS = {}
 
 
-with open(renpy.loader.transfn("ForestLocations.csv")) as f:
+with open(renpy.loader.transfn("data/ForestLocations.csv")) as f:
     _locations_list = []
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}
