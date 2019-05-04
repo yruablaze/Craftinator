@@ -1,0 +1,22 @@
+location,item,chance
+WILD,apple,40
+WILD,onion,14
+WILD,ginger,6
+WILD,strawberry,20
+WILD,mint,20
+BRIDGE,brown mushroom,15
+BRIDGE,stone,30
+BRIDGE,shijemi,15
+BRIDGE,pebbles,40
+HUT,twig,25
+HUT,branch,25
+HUT,cloth,5
+HUT,bark,45
+BOG,twig,30
+BOG,blueberry,20
+BOG,vine,25
+BOG,dirt,25
+MINE,sand,25
+MINE,pebbles,25
+MINE,dirt,25
+MINE,stone,25

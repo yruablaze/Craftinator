@@ -1,26 +1,37 @@
-﻿# The script of the game goes in this file.
-
+﻿""" The script of the game goes in this file. """
 init python:
     import random
     import forest
     from player import currentPlayer
     import items
     import craft
-    from shop import shop
+    import shop
     from clock import gameTime
 
-    def showTime(a, at):
-        d= Text("It is %s %s in Year %s." % gameTime.checkClock())
+    def display_time(a, at):
+        d = Text("It is %s %s in Year %s." % gameTime.check_clock())
         return d, None
 
-    def showMoney(a, at):
-        d= Text("Gold : %s" % currentPlayer.money)
+    def display_money(a, at):
+        d = Text("Gold : %s" % currentPlayer.money)
         return d, None
 
-    timeIncrease = 10
+    time_increase = 10
 
-image showingTime = DynamicDisplayable(showTime)
-image showingMoney = DynamicDisplayable(showMoney)
+    """STATS"""
+    items_crafted = 0
+    items_found = 0
+    items_sold = 0
+    money_made = 0
+
+    TEXT_COLOR = "#339900"
+
+    # number of recipes to show per page
+    SHOW_PER_PAGE = 6
+
+image TIME_DISPLAY = DynamicDisplayable(display_time)
+image MONEY_DISPLAY = DynamicDisplayable(display_money)
+
 
 # Photo by Holly Mandarich on Unsplash
 image Crossroads = "Crossroads.jpg"
@@ -43,34 +54,21 @@ image Stats = "Stats.jpg"
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-# commented out for now, using narrator instead of Mel
-#define m = Character("Mel")
-
+# define m = Character("Mel")
 
 # The game starts here.
 
+
 label start:
-
-    # Show a background. This uses a placeholder by default, but you can
-    # add a file (named either "bg room.png" or "bg room.jpg") to the
-    # images directory to show it.
-
-
     scene Crossroads
-    show showingTime at left
-
-    # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
-    # directory.
-
-    #M - don't need this yet
-    #show eileen happy
+    show TIME_DISPLAY at left
 
     menu:
         "Visit the Forest":
             scene Forest
-            show showingTime at left
-            narrator "The forest is an excellent spot to find items!"
+            show TIME_DISPLAY at left
+            # the narrator line should run once
+            # narrator "The forest is an excellent spot to find items!"
             jump forest
         "Go to the Field":
             scene Field
@@ -80,124 +78,134 @@ label start:
             jump barn
         "Open a Vendor Stall":
             scene Stall
-            show showingTime at left
-            show showingMoney at top
+            show TIME_DISPLAY at left
+            show MONEY_DISPLAY at top
             jump stall
         "Visit the Market":
             scene Market
-            show showingMoney at top
+            show MONEY_DISPLAY at top
             jump market
         "Go to the Crafting Bench":
             scene Crafting
             jump crafting
         "View Stats":
             scene Stats
+            show TIME_DISPLAY at left
             jump stats
         "Quit":
-            # This ends the game.
             return
 
-label forest:
 
+label forest:
     menu:
         narrator "Where do you want to look?"
-
         "In a wild field":
-            #example of single line python script (using dollar sign)
-            $ item = forest.wild.search()
+            # example of single line python script (using dollar sign)
+            $ item = forest.LOCATIONS["WILD"].search()
             jump foundSomething
         "Under the Sunny Brook Bridge":
-            $ item = forest.bridge.search()
+            $ item = forest.LOCATIONS["BRIDGE"].search()
             jump foundSomething
         "By the Forester's Hut":
-            $ item = forest.hut.search()
+            $ item = forest.LOCATIONS["HUT"].search()
             jump foundSomething
         "Around Pea Bog":
-            $ item = forest.bog.search()
+            $ item = forest.LOCATIONS["BOG"].search()
             jump foundSomething
         "By the old mine":
-            $ item = forest.mine.search()
+            $ item = forest.LOCATIONS["MINE"].search()
             jump foundSomething
         "Go back Home":
             jump start
 
+
 label foundSomething:
-    #example of mult-line python script
     python:
         narrator( "You found a %s!" % item.name )
-        currentPlayer.inventory.addItem(item)
-        currentPlayer.addCount(timeIncrease)
-        currentPlayer.expGain(1)
+        currentPlayer.inventory.add_item(item)
+        currentPlayer.add_action_count(time_increase)
+        currentPlayer.exp_gain(1)
+        items_found += 1
     jump forest
+
 
 label field:
     narrator "You are in the field"
+    $ craft.find_recipe("glass")
     jump start
+
 
 label barn:
     narrator "You are in the barn"
     jump start
 
+
 label stall:
     narrator "You are at the vendor stall" (interact=False)
     python:
         choice=None
-        sellableItems = currentPlayer.inventory.getSellable()
+        sellable_items = currentPlayer.inventory.get_sellable()
         menu_items = []
         menu_items.append(("Choose an item to sell:", None))
-        for item in sellableItems:
-            menu_items.append(("Sell one %s for %s gold. You have %s." % (item.name, item.sellPrice, item.quantity), item))
+        for item in sellable_items:
+            menu_items.append(("Sell %s for %s gold. You have %s." % (item.name, item.sell_price, item.quantity), item))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            currentPlayer.inventory.removeItem(choice)
-            currentPlayer.money += choice.sellPrice
-            narrator ("You sold 1 %s for %s gold" % (choice.name, choice.sellPrice))
+            currentPlayer.inventory.remove_item(choice)
+            currentPlayer.money += choice.sell_price
+            items_sold += 1
+            money_made += choice.sell_price 
+            narrator ("You sold %s for %s gold" % (choice.name, choice.sell_price))
     jump stall
+
 
 label market:
     python:
-        buyableItems = shop.getBuyable()
+        buyable_items = shop.get_buyable()
+
+
 label market2:
     narrator "You are at the market" (interact=False)
     python:
         cash = currentPlayer.money
         menu_items = []
         menu_items.append(("Choose an item to buy:", None))
-        for item in buyableItems:
-            if cash >= item.buyPrice:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), item))
+        for item in buyable_items:
+            if cash >= item.buy_price:
+                menu_items.append(("Buy %s for %s gold." % (item.name, item.buy_price), item))
             else:
-                menu_items.append(("Buy a %s for %s gold." % (item.name, item.buyPrice), None))
+                menu_items.append(("Buy %s for %s gold." % (item.name, item.buy_price), None))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         else:
-            buyableItems.remove(choice)
-            currentPlayer.inventory.addItem(choice)
-            currentPlayer.money -= choice.buyPrice
-            narrator ("You bought 1 %s for %s gold" % (choice.name, choice.buyPrice))
+            buyable_items.remove(choice)
+            currentPlayer.inventory.add_item(choice)
+            currentPlayer.money -= choice.buy_price
+            narrator ("You bought %s for %s gold" % (choice.name, choice.buy_price))
     jump market2
+
 
 label crafting:
     narrator "You are at the crafting bench" (interact=False)
     python:
         menu_items = []
-        menu_items.append(("Choose an item to craft:", None))
+        menu_items.append(("{color=%s}Choose an item to craft:{/color}" % (TEXT_COLOR), None))
         for recipe in craft.recipes.values():
-            componentsFound = True
-            componentsText = ""
+            components_found = True
+            components_text = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component))
-                if currentPlayer.inventory.containsType(component, quantity) == False:
-                    componentsFound = False
-            if componentsFound == True:
-                menu_items.append(("Make a %s with: %s" % (recipe.product, componentsText[0:-2]), recipe))
+                components_text += ("%s %s, " % (quantity, component.name))
+                if currentPlayer.inventory.contains_item(component, quantity) is False:
+                    components_found = False
+            if components_found is True:
+                menu_items.append(("Make a %s with: %s" % (recipe.product.name, components_text[0:-2]), recipe))
         menu_items.append(("View all recipes", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
@@ -207,114 +215,100 @@ label crafting:
         elif(choice == "View all"):
             renpy.jump("recipeList")
         else:
-            currentPlayer.inventory.addItem(items.Item(choice.product))
+            currentPlayer.inventory.add_item(items.Item(choice.product))
             for component, quantity in choice.components.iteritems():
-                currentPlayer.inventory.removeItem(items.Item(component), quantity)
-            currentPlayer.expGain(4)
-            currentPlayer.addCount(timeIncrease)
+                currentPlayer.inventory.remove_item(items.Item(component), quantity)
+            currentPlayer.exp_gain(4)
+            currentPlayer.add_action_count(time_increase)
+            items_crafted += 1
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 
+
 label recipeList:
     python:
-        # number of recipes to show per page
-        showPerPage = 6
-        currentPage = 0
-        recipesList = craft.recipes.values()
+        current_page = 0
+        recipes_list = craft.recipes.values()
+
 
 label recipeSubList:
     python:
         menu_items = []
-        startSubList = currentPage*showPerPage
-        endSubList = (currentPage+1)*showPerPage
-
+        start_sub_list = current_page*SHOW_PER_PAGE
+        end_sub_list = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        recipesSubList = recipesList[startSubList:endSubList]
+        recipesSubList = recipes_list[start_sub_list:end_sub_list]
         for recipe in recipesSubList:
-            componentsText = ""
+            components_text = ""
             for component, quantity in recipe.components.iteritems():
-                componentsText += ("%s %s, " % (quantity, component))
-            menu_items.append((" %s needs: %s" % (recipe.product, componentsText[0:-2]), None))
-
-        #Show prev button on pages after the first page
-        if (currentPage > 0):
+                components_text += ("%s %s, " % (quantity, component.name))
+            menu_items.append((" %s needs: %s" % (recipe.product.name, components_text[0:-2]), None))
+        # Show prev button on pages after the first page
+        if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
-
-        #Show next button on pages before the last page
-        if ( endSubList < len(recipesList) ):
+        # Show next button on pages before the last page
+        if ( end_sub_list < len(recipes_list) ):
             menu_items.append(("Next >", "next"))
-
         menu_items.append(("Done", "Nevermind"))
-
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
-
         if (choice == "Nevermind"):
             renpy.jump("crafting")
         elif (choice == "prev"):
-            currentPage -= 1
+            current_page -= 1
             renpy.jump("recipeSubList")
         elif (choice == "next"):
-            currentPage += 1
+            current_page += 1
             renpy.jump("recipeSubList")
 
+
 label stats:
-    #$ narrator ("You bought 1 %s for %s gold" % ("placeholder", "10,000"))
-    narrator "Here is the status page"  (interact=False)
+    narrator "Here is the status page"  (interact = False)
     python:
         menu_items = []
-        menu_items.append(("Level %s with %s exp" % (currentPlayer.lvl, currentPlayer.exp), None))
-        menu_items.append(("%s exp required to level up" % (currentPlayer.lvlUp), None))
-        menu_items.append(("%s actions per day, %s used today" % (currentPlayer.actions, currentPlayer.actionCount), None))
-        menu_items.append(("%s Gold" % (currentPlayer.money), None))
-
+        menu_items.append(("{color=%s}Level %s with %s exp{/color}" % (TEXT_COLOR, currentPlayer.lvl, currentPlayer.exp), None))
+        menu_items.append(("{color=%s}%s exp required to level up{/color}" % (TEXT_COLOR, currentPlayer.lvl_up), None))
+        menu_items.append(("{color=%s}%s actions per day, %s used today{/color}" % (TEXT_COLOR, currentPlayer.actions, currentPlayer.action_count), None))
+        menu_items.append(("{color=%s}%s Gold{/color}" % (TEXT_COLOR, currentPlayer.money), None))
         menu_items.append(("View Inventory", "View all"))
         menu_items.append(("Nevermind", "Nevermind"))
-
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
         if (choice == "Nevermind"):
             renpy.jump("start")
         elif(choice == "View all"):
             renpy.jump("statsInvDisplay")
-    jump start
+
 
 label statsInvDisplay:
     python:
-        # number of recipes to show per page
-        showPerPage = 6
-        currentPage = 0
-        inventoryList = currentPlayer.inventory.getList()
+        current_page = 0
+        inv_list = currentPlayer.inventory.get_list()
+
 
 label subStatsInvDisplay:
     python:
         menu_items = []
-        startSubList = currentPage*showPerPage
-        endSubList = (currentPage+1)*showPerPage
-
+        start_sub_list = current_page*SHOW_PER_PAGE
+        end_sub_list = (current_page+1)*SHOW_PER_PAGE
         # only add the current page of recipes to the menu
-        invSubList = inventoryList[startSubList:endSubList]
-        for item in inventoryList:
-            menu_items.append(("{color=#339900}%s : %s{/color}" % (item.name, item.quantity), None))
-
-        #Show prev button on pages after the first page
-        if (currentPage > 0):
+        invSubList = inv_list[start_sub_list:end_sub_list]
+        for item in invSubList:
+            menu_items.append(("{color=%s}%s : %s{/color}" % (TEXT_COLOR, item.name, item.quantity), None))
+        # Show prev button on pages after the first page
+        if (current_page > 0):
             menu_items.append(("< Prev", "prev"))
-
-        #Show next button on pages before the last page
-        if ( endSubList < len(inventoryList) ):
+        # Show next button on pages before the last page
+        if (end_sub_list < len(inv_list)):
             menu_items.append(("Next >", "next"))
-
         menu_items.append(("Done", "Nevermind"))
-
         # each tuple in menu_items is (text_displayed_in_menu, object_returned_upon_selection)
         choice = menu(menu_items)
-
         if (choice == "Nevermind"):
             renpy.jump("stats")
         elif (choice == "prev"):
-            currentPage -= 1
-            renpy.jump("invSubList")
+            current_page -= 1
+            renpy.jump("subStatsInvDisplay")
         elif (choice == "next"):
-            currentPage += 1
-            renpy.jump("invSubList")
+            current_page += 1
+            renpy.jump("subStatsInvDisplay")

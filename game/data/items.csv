@@ -1,0 +1,23 @@
+Name,Sellable,Buyable,BuyPrice,SellPrice
+blueberry,TRUE,,3,1
+shijemi,TRUE,,3,1
+brown mushroom,TRUE,,3,1
+apple,TRUE,TRUE,4,2
+onion,TRUE,,3,1
+ginger,TRUE,,2,1
+strawberry,TRUE,,3,2
+mint,TRUE,,2,1
+fruit dish,TRUE,TRUE,16,12
+vine,,,3,0
+twig,,,1,0
+branch,,,3,0
+bark,,,1,0
+stone,,,2,0
+pebbles,,,1,0
+dirt,,TRUE,1,0
+sand,,,2,0
+string,,TRUE,5,0
+cloth,TRUE,TRUE,15,11
+brick,TRUE,,4,2
+pole,TRUE,,5,2
+glass,TRUE,,6,4

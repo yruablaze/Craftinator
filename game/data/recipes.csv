@@ -1,0 +1,14 @@
+name,product,component,quantity
+fruit dish,fruit dish,blueberry,3
+fruit dish,fruit dish,apple,1
+string,string,bark,2
+cloth,cloth,string,4
+cloth,cloth,twig,1
+fruit dish2,fruit dish,strawberry,3
+fruit dish2,fruit dish,apple,1
+brick,brick,stone,2
+glass,glass,sand,3
+dirt,dirt,pebbles,5
+pebbles,pebbles,stone,1
+twig,twig,branch,1
+bark,bark,branch,1

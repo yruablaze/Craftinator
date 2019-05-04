@@ -1,112 +1,96 @@
-import random
-from collections import defaultdict
+"""The Player
 
+Contains the player class called with currentPlayer
+Contains the player inventory a sub class of the player class
+Adds items to currentPlayer inventory at page bottom
+"""
+from collections import defaultdict
 from items import *
 from clock import gameTime
 
 
-
 class Player(object):
-    def __init__(self, exp, money, actions, actionCount):
+    def __init__(self, exp, money, actions, action_count):
         self.exp = exp
         self.lvl = 1
-        self.lvlUp = 100
+        self.lvl_up = 100
         self.money = money
         self.inventory = Inventory()
         self.actions = actions
-        self.actionCount = actionCount
+        self.action_count = action_count
 
-    #for the stats page! not used yet
-    def printStats(self):
-        return str(self.money), str(self.lvl), str(self.exp)
-
-    #experince UP
-    def expGain(self, num=1):
+    # experince UP
+    def exp_gain(self, num=1):
         self.exp += num
-        if self.exp >= self.lvlUp:
+        if self.exp >= self.lvl_up:
             self.lvl += 1
-            self.exp -= self.lvlUp
-            self.lvlUp = self.lvlUp * 1.1
-            if (self.lvl % 2 == 0):
-                self.addActions(1)
+            self.exp -= self.lvl_up
+            self.lvl_up = self.lvl_up * 1.1
+            if self.lvl % 2 == 0:
+                self.add_actions(1)
 
-    #updates the count of actions and
-    #checks to see if the day should be advanced
-    def addCount(self, num):
-        self.actionCount += num
-        if self.actionCount >= self.actions:
-            gameTime.advanceDay()
-            self.actionCount -= self.actions
+    # updates the count of actions and
+    # checks to see if the day should be advanced
+    def add_action_count(self, num):
+        self.action_count += num
+        if self.action_count >= self.actions:
+            gameTime.advance_day()
+            self.action_count -= self.actions
 
-    #for lvling up, maybe also special foods?
-    def addActions(self, num):
+    # for lvling up, maybe also special foods?
+    def add_actions(self, num):
         self.actions += num
+
 
 # A special type of list that stores a player's inventory
 # Only store Items here otherwise bad stuff will happen
 class Inventory(list):
-    def addItem(self, item):
-        invItem = self.findType(item)
-        if invItem == None:
+    def add_item(self, item):
+        inv_item = self.find_item(item)
+        if inv_item is None:
             self.append(item)
         else:
-            invItem.quantity += item.quantity
+            inv_item.quantity += item.quantity
 
-    # def remove(self, item) comes for free :)
-    def removeItem(self, item, num=1):
-        invItem = self.findType(item)
-        if invItem.quantity == num:
-            self.remove(invItem)
+    def remove_item(self, item, num=1):
+        inv_item = self.find_item(item)
+        if inv_item.quantity == num:
+            self.remove(inv_item)
         else:
-            invItem.quantity -= num
+            inv_item.quantity -= num
 
-    #??
-    def containsType(self, itemType, quantity=1):
+    # Checks if the item exists in inv and if there is enough of the item
+    def contains_item(self, itemType, quantity=1):
         for item in self:
             if item.name == itemType.name and item.quantity >= quantity:
                 return True
         return False
 
-    #??
-    def findType(self, itemType):
+    # checks if the item is in the inv and returns the item
+    def find_item(self, itemType):
         for item in self:
             if item.name == itemType.name:
                 return item
         return None
 
-    #gets a list of sellable items for the vendor
-    def getSellable(self):
-        return filter( lambda item: item.sellable == True, self )
+    # gets a list of sellable items for the vendor
+    def get_sellable(self):
+        return filter(lambda item: item.sellable is True, self)
 
-    def getList(self):
-        invList = []
+    # get whole inventory as a list
+    def get_list(self):
+        inv_list = []
         for item in self:
-            invList.append(item)
-        return invList
-
-    # def printSellable(self):
-    #     printedItems = []
-    #     for item in self:
-    #         if item not in printedItems and item.sellable == True:
-    #             print "%s (%s g)" % (str(item), str(item.sellPrice()))
-    #
-    #     print ""
-
-    # def printPretty(self):
-    #     itemDict = defaultdict(int)
-    #     for item in self:
-    #         itemDict[item.name] += 1
-    #
-    #     for name, quantity in itemDict.iteritems():
-    #         print "%s (%s)" % (name, quantity)
-    #     print ""
+            inv_list.append(item)
+        return inv_list
 
 
-
+# Player(exp, money, actions, action_count)
 currentPlayer = Player(0, 15, 10, 0)
+
+# Starting items could be in a .csv instead of this
 for i in range(5):
-    currentPlayer.inventory.addItem(Item(bark))
-currentPlayer.inventory.addItem(Item(blueberry)) # top quality blueberry
-currentPlayer.inventory.addItem(Item(blueberry))
-currentPlayer.inventory.addItem(Item(blueberry))
-currentPlayer.inventory.addItem(Item(apple))
+    currentPlayer.inventory.add_item(Item(ITEM_TYPES['bark']))
+for i in range(3):
+    currentPlayer.inventory.add_item(Item(ITEM_TYPES['blueberry']))
+currentPlayer.inventory.add_item(Item(ITEM_TYPES['apple']))

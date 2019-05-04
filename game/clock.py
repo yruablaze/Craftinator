@@ -1,10 +1,7 @@
-## from Singleton import Singleton
-#having lots of problems with singleton class
-#can't use functions that should work.. gives attributeErrors saying
-#singleton instance has no attribute ____
+"""Time and Time progression
 
-#going to use a regular class instead
-
+Counts the days, seasons and years
+"""
 
 
 class Season:
@@ -14,21 +11,21 @@ class Season:
     WINTER = 4
 
 
-##@Singleton
+## @Singleton
 class Time(object):
     def __init__(self, day, season, year):
         self.day = day
         self.season = season
         self.year = year
 
-    def checkClock(self):
-        return (str(gameTime.seasonFriendly()), str(self.day), str(self.year))
+    def check_clock(self):
+        return (str(gameTime.season_friendly()), str(self.day), str(self.year))
 
 
-    #moves time forward! ^_^
-    #M - it might be nice to have something that jumps up for the day changes
-    #maybe use events.py for that
-    def advanceDay(self):
+    # moves time forward! ^_^
+    # M - it might be nice to have something that jumps up for the day changes
+    # maybe use events.py for that
+    def advance_day(self):
         self.count = 0
         if self.day < 30:
             self.day += 1
@@ -40,14 +37,11 @@ class Time(object):
             self.season = 1
             self.year += 1
 
-        # print ""
-        # print "It's a new day!"
-        gameTime.checkClock()
+        gameTime.check_clock()
 
 
-
-    #returns the season to be printed
-    def seasonFriendly(self):
+    # returns the season to be printed
+    def season_friendly(self):
         if self.season == Season.SPRING:
             return "Spring"
         elif self.season == Season.SUMMER:
@@ -56,5 +50,6 @@ class Time(object):
             return "Fall"
         elif self.season == Season.WINTER:
             return "Winter"
+
 
 gameTime = Time(1, Season.SPRING, 1)

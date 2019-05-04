@@ -1,48 +1,27 @@
+"""What can be bought
+
+Used to run all buying and selling.
+Now a list of things that can be bought from market
+
+Maybe later there will be more market stalls
+And more lists of things that can be bought
+maybe buy_items_list should check itemTypes for tags to create itself
+"""
 import random
-
-from player import currentPlayer
 from items import *
-#import clock as clock
-
-#for the market, tells it what can be bought
-buyItemTypes = [string, cloth, fruit_dish]
-
-#every item
-allItemTypes = {
-    "blueberry" : blueberry,
-    "strawberry" : strawberry,
-    "apple" : apple,
-    "shijemi" : shijemi,
-    "onion" : onion,
-    "ginger" : ginger,
-    "mint" : mint,
-    "branch" : branch,
-    "twig" : twig,
-    "bark" : bark,
-    "stone" : stone,
-    "pebbles" : pebbles,
-    "sand" : sand,
-    "vine" : vine,
-    "string" : string,
-    "cloth" : cloth,
-    "dirt" : dirt,
-    "brick" : brick,
-    "pole" : pole,
-    "glass" : glass,
-    "fruit_dish" : fruit_dish
-}
-
-class Shop(object):
-    def __init__(self):
-        pass
-
-    #for market - gives a list of things to sell from buyItemTypes, one thing per append
-    def getBuyable(self):
-        buyableList = []
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        buyableList.append(Item(random.choice(buyItemTypes)))
-        return buyableList
 
 
-shop = Shop()
+# add buyable items to the BUY_ITEMS_LIST
+# make it a constant, since it only needs to be done once
+BUY_ITEMS_LIST = []
+for k, v in ITEM_TYPES.items():
+    if v.buyable:
+        BUY_ITEMS_LIST.append(v)
+
+
+# for market - makes a random list from buy_items_list, one thing per line
+def get_buyable(avail_items=3):
+    buyable_list = []
+    for i in range(avail_items):
+        buyable_list.append(Item(random.choice(BUY_ITEMS_LIST)))
+    return buyable_list
