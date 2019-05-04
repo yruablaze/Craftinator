@@ -18,6 +18,12 @@ init python:
 
     time_increase = 10
 
+    """STATS"""
+    items_crafted = 0
+    items_found = 0
+    items_sold = 0
+    money_made = 0
+
     TEXT_COLOR = "#339900"
 
     # number of recipes to show per page
@@ -119,6 +125,7 @@ label foundSomething:
         currentPlayer.inventory.add_item(item)
         currentPlayer.add_action_count(time_increase)
         currentPlayer.exp_gain(1)
+        items_found += 1
     jump forest
 
 
@@ -150,6 +157,8 @@ label stall:
         else:
             currentPlayer.inventory.remove_item(choice)
             currentPlayer.money += choice.sell_price
+            items_sold += 1
+            money_made += choice.sell_price 
             narrator ("You sold %s for %s gold" % (choice.name, choice.sell_price))
     jump stall
 
@@ -211,6 +220,7 @@ label crafting:
                 currentPlayer.inventory.remove_item(items.Item(component), quantity)
             currentPlayer.exp_gain(4)
             currentPlayer.add_action_count(time_increase)
+            items_crafted += 1
             narrator ("You made a %s!" % (choice.product.name))
     jump crafting
 
