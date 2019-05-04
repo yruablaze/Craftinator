@@ -28,34 +28,19 @@ class ForestLocation(object):
                 return Item(item)
 
 
+LOCATIONS = {}
+
+
 with open(renpy.loader.transfn("ForestLocations.csv")) as f:
     _locations_list = []
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}
         for k, v in row.items():
             _current_line[k.lower()] = v
-        _location_item = _current_line['item'].lower().replace(" ", "_")
+        _item = _current_line['item'].lower().replace(" ", "_")
         _chance = int(_current_line['chance'])
-        if _current_line['location'] not in _locations_list:
-            if _current_line['location'] == "WILD":
-                WILD = ForestLocation({ITEM_TYPES[_location_item]: _chance})
-            elif _current_line['location'] == "BRIDGE":
-                BRIDGE = ForestLocation({ITEM_TYPES[_location_item]: _chance})
-            elif _current_line['location'] == "HUT":
-                HUT = ForestLocation({ITEM_TYPES[_location_item]: _chance})
-            elif _current_line['location'] == "BOG":
-                BOG = ForestLocation({ITEM_TYPES[_location_item]: _chance})
-            elif _current_line['location'] == "MINE":
-                MINE = ForestLocation({ITEM_TYPES[_location_item]: _chance})
-            _locations_list.append(_current_line['location'])
+        _location = _current_line['location']
+        if _location not in LOCATIONS:
+            LOCATIONS[_location] = ForestLocation({ITEM_TYPES[_item]: _chance})
         else:
-            if _current_line['location'] == "WILD":
-                WILD.add_item(_location_item, _chance)
-            elif _current_line['location'] == "BRIDGE":
-                BRIDGE.add_item(_location_item, _chance)
-            elif _current_line['location'] == "HUT":
-                HUT.add_item(_location_item, _chance)
-            elif _current_line['location'] == "BOG":
-                BOG.add_item(_location_item, _chance)
-            elif _current_line['location'] == "MINE":
-                MINE.add_item(_location_item, _chance)
+            LOCATIONS[_location].add_item(_item, _chance)

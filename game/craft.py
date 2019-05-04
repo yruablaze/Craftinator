@@ -38,15 +38,16 @@ def find_recipe(key):
 
 with open(renpy.loader.transfn("recipes.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
-        _current_recipe_line = {}
+        _current_line = {}
         for k, v in row.items():
-            _current_recipe_line[k.lower()] = v
-        _recipe_component = _current_recipe_line['component'].lower().replace(" ", "_")
-        if _current_recipe_line['name'] in hidden_recipes:
-            hidden_recipes[_current_recipe_line['name']].add_components(_recipe_component, _current_recipe_line['quantity'])
+            _current_line[k.lower()] = v
+        _component = _current_line['component'].lower().replace(" ", "_")
+        _quantity = int(_current_line['quantity'])
+        if _current_line['name'] in hidden_recipes:
+            hidden_recipes[_current_line['name']].add_components(_component, _quantity)
         else:
-            _recipe_product = _current_recipe_line['product'].lower().replace(" ", "_")
-            hidden_recipes[_current_recipe_line['name']] = Recipe(ITEM_TYPES[_recipe_product], {ITEM_TYPES[_recipe_component]: _current_recipe_line['quantity']})
+            _product = _current_line['product'].lower().replace(" ", "_")
+            hidden_recipes[_current_line['name']] = Recipe(ITEM_TYPES[_product], {ITEM_TYPES[_component]: _quantity})
 
 
 with open(renpy.loader.transfn("hidden.csv")) as f:

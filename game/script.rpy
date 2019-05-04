@@ -95,19 +95,19 @@ label forest:
         narrator "Where do you want to look?"
         "In a wild field":
             # example of single line python script (using dollar sign)
-            $ item = forest.WILD.search()
+            $ item = forest.LOCATIONS["WILD"].search()
             jump foundSomething
         "Under the Sunny Brook Bridge":
-            $ item = forest.BRIDGE.search()
+            $ item = forest.LOCATIONS["BRIDGE"].search()
             jump foundSomething
         "By the Forester's Hut":
-            $ item = forest.HUT.search()
+            $ item = forest.LOCATIONS["HUT"].search()
             jump foundSomething
         "Around Pea Bog":
-            $ item = forest.BOG.search()
+            $ item = forest.LOCATIONS["BOG"].search()
             jump foundSomething
         "By the old mine":
-            $ item = forest.MINE.search()
+            $ item = forest.LOCATIONS["MINE"].search()
             jump foundSomething
         "Go back Home":
             jump start
