@@ -90,7 +90,7 @@ currentPlayer = Player(0, 15, 10, 0)
 
 # Starting items could be in a .csv instead of this
 for i in range(5):
-    currentPlayer.inventory.add_item(Item(ITEM['bark']))
+    currentPlayer.inventory.add_item(Item(ITEM_TYPES['bark']))
 for i in range(3):
-    currentPlayer.inventory.add_item(Item(ITEM['blueberry']))
-currentPlayer.inventory.add_item(Item(ITEM['apple']))
+    currentPlayer.inventory.add_item(Item(ITEM_TYPES['blueberry']))
+currentPlayer.inventory.add_item(Item(ITEM_TYPES['apple']))

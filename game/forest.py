@@ -14,18 +14,18 @@ class ForestLocation(object):
         self.itemTypes = itemTypes
 
     def add_item(self, item, chance):
-        self.itemTypes[ITEM[item]] = chance
+        self.itemTypes[ITEM_TYPES[item]] = chance
 
 # TypeError: unsupported operand type(s) for +=: 'int' and 'ItemType' on line 22
     def search(self):
         _sum_chance = 0
-        for num in self.itemTypes.iterkeys():
-            _sum_chance += num
+        for v in self.itemTypes.itervalues():
+            _sum_chance += v
         random_weight = random.randint(1, _sum_chance)
-        for item, num in self.itemTypes.interitems():
-            random_weight = random_weight - chance
+        for item, num in self.itemTypes.iteritems():
+            random_weight = random_weight - num
             if random_weight <= 0:
-                return item
+                return Item(item)
 
 
 with open(renpy.loader.transfn("ForestLocations.csv")) as f:
@@ -38,15 +38,15 @@ with open(renpy.loader.transfn("ForestLocations.csv")) as f:
         _chance = int(_current_line['chance'])
         if _current_line['location'] not in _locations_list:
             if _current_line['location'] == "WILD":
-                WILD = ForestLocation({ITEM[_location_item]: _chance})
+                WILD = ForestLocation({ITEM_TYPES[_location_item]: _chance})
             elif _current_line['location'] == "BRIDGE":
-                BRIDGE = ForestLocation({ITEM[_location_item]: _chance})
+                BRIDGE = ForestLocation({ITEM_TYPES[_location_item]: _chance})
             elif _current_line['location'] == "HUT":
-                HUT = ForestLocation({ITEM[_location_item]: _chance})
+                HUT = ForestLocation({ITEM_TYPES[_location_item]: _chance})
             elif _current_line['location'] == "BOG":
-                BOG = ForestLocation({ITEM[_location_item]: _chance})
+                BOG = ForestLocation({ITEM_TYPES[_location_item]: _chance})
             elif _current_line['location'] == "MINE":
-                MINE = ForestLocation({ITEM[_location_item]: _chance})
+                MINE = ForestLocation({ITEM_TYPES[_location_item]: _chance})
             _locations_list.append(_current_line['location'])
         else:
             if _current_line['location'] == "WILD":

@@ -17,14 +17,14 @@ class Recipe(object):
         self.components = components
 
     def add_components(self, name, quantity):
-        self.components[ITEM[name]] = quantity
+        self.components[ITEM_TYPES[name]] = quantity
 
 
 # this is a bit messy right now, but once recipes are in a csv, it'll be nicer
 recipes = {}
 
 hidden_recipes = {}
-# "brick": Recipe(ITEM['brick'], {ITEM['stone']: 2})
+# "brick": Recipe(ITEM_TYPES['brick'], {ITEM_TYPES['stone']: 2})
 
 
 def find_recipe(key):
@@ -46,7 +46,7 @@ with open(renpy.loader.transfn("recipes.csv")) as f:
             hidden_recipes[_current_recipe_line['name']].add_components(_recipe_component, _current_recipe_line['quantity'])
         else:
             _recipe_product = _current_recipe_line['product'].lower().replace(" ", "_")
-            hidden_recipes[_current_recipe_line['name']] = Recipe(ITEM[_recipe_product], {ITEM[_recipe_component]: _current_recipe_line['quantity']})
+            hidden_recipes[_current_recipe_line['name']] = Recipe(ITEM_TYPES[_recipe_product], {ITEM_TYPES[_recipe_component]: _current_recipe_line['quantity']})
 
 
 with open(renpy.loader.transfn("hidden.csv")) as f:

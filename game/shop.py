@@ -14,7 +14,7 @@ from items import *
 # add buyable items to the BUY_ITEMS_LIST
 # make it a constant, since it only needs to be done once
 BUY_ITEMS_LIST = []
-for k, v in ITEM.items():
+for k, v in ITEM_TYPES.items():
     if v.buyable:
         BUY_ITEMS_LIST.append(v)
 

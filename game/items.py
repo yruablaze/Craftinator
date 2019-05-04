@@ -58,7 +58,7 @@ class SeedStar(object):
 
 
 # e.g. {'apple': {'name': 'apple', sellable': 'TRUE', 'edible': 'TRUE'...}...}
-ITEM = {}
+ITEM_TYPES = {}
 with open(renpy.loader.transfn("items.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_items = {}
@@ -66,9 +66,9 @@ with open(renpy.loader.transfn("items.csv")) as f:
             _current_items[k.lower()] = v
         # change "brown mushroom" to "brown_mushroom" when used as key
         _item_name = _current_items['name'].lower().replace(" ", "_")
-        ITEM[_item_name] = ItemType(_current_items['name'], _current_items['sellable'], _current_items['buyable'], _current_items['buyprice'], _current_items['sellprice'], [])
+        ITEM_TYPES[_item_name] = ItemType(_current_items['name'], _current_items['sellable'], _current_items['buyable'], _current_items['buyprice'], _current_items['sellprice'], [])
 
 
 # seeds = Seed("name", grow_time, refresh, ["season_grown"], crop)
-onion_seed = Seeds("onion seed", 5, None, ["Summer", "Fall"], ITEM['onion'])
-strawberry_seed = Seeds("strawberry seed", 9, 3, ["Summer"], ITEM['strawberry'])
+onion_seed = Seeds("onion seed", 5, None, ["Summer", "Fall"], ITEM_TYPES['onion'])
+strawberry_seed = Seeds("strawberry seed", 9, 3, ["Summer"], ITEM_TYPES['strawberry'])
