@@ -3,6 +3,9 @@
 Contains the player class called with currentPlayer
 Contains the player inventory a sub class of the player class
 Adds items to currentPlayer inventory at page bottom
+
+Notes:
+Starting items could be in a .csv instead
 """
 from collections import defaultdict
 from items import *
@@ -37,13 +40,14 @@ class Player(object):
             gameTime.advance_day()
             self.action_count -= self.actions
 
-    # for lvling up, maybe also special foods?
+    # for lvling up, maybe also extra special foods?
     def add_actions(self, num):
         self.actions += num
 
 
-# A special type of list that stores a player's inventory
-# Only store Items here otherwise bad stuff will happen
+""" A special type of list that stores a player's inventory
+Only store Items here otherwise bad stuff will happen
+"""
 class Inventory(list):
     def add_item(self, item):
         inv_item = self.find_item(item)

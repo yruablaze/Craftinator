@@ -3,8 +3,11 @@
 contains the list of recipes for crafting
 a tuple (item, dictionary) but only by choice
 
-used to contain all of crafting
-the class doesn't do much
+Notes:
+maybe special_recipes_path should be a class to handle things like
+    you need to be this level and have done this much to unlock
+
+the Recipe class doesn't do much
 """
 from items import *
 import csv
@@ -20,14 +23,12 @@ class Recipe(object):
         self.components[ITEM_TYPES[name]] = quantity
 
 
-# this is a bit messy right now, but once recipes are in a csv, it'll be nicer
 recipes = {}
 
 hidden_recipes = {}
 
 special_recipes = {}
 special_recipes_path = {}
-# "brick": Recipe(ITEM_TYPES['brick'], {ITEM_TYPES['stone']: 2})
 
 
 def find_recipe(key):
@@ -39,6 +40,9 @@ def find_recipe(key):
     return False
 
 
+"""Example of recipe:
+"brick": Recipe(ITEM_TYPES['brick'], {ITEM_TYPES['stone']: 2})
+"""
 with open(renpy.loader.transfn("data/recipes.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}

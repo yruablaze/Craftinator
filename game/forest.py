@@ -2,8 +2,11 @@
 
 Contains lists of items that can be found in different locations
 
-Thinking of reworking this to a number or % based system
-Also some locations unlocked by level or season
+Notes:
+To do later - some locations unlocked by level or season
+We could add a self.text to each location
+    and have that for the locations in the script
+    so it could self generate the list of places
 """
 import random
 from items import *
@@ -15,7 +18,6 @@ class ForestLocation(object):
 
     def add_item(self, item, chance):
         self.itemTypes[ITEM_TYPES[item]] = chance
-
 
     def search(self):
         _sum_chance = 0

@@ -3,9 +3,10 @@
 Used to run all buying and selling.
 Now a list of things that can be bought from market
 
+Notes:
 Maybe later there will be more market stalls
 And more lists of things that can be bought
-maybe buy_items_list should check itemTypes for tags to create itself
+    ie: seed seller sells seeds, traveling merchent sells rare things
 """
 import random
 from items import *

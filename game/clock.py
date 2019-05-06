@@ -1,6 +1,10 @@
 """Time and Time progression
 
 Counts the days, seasons and years
+
+Notes:
+it might be nice to have something that jumps up for the day changes,
+    they happen a little un-noticable right now
 """
 
 
@@ -11,7 +15,7 @@ class Season:
     WINTER = 4
 
 
-## @Singleton
+# @Singleton
 class Time(object):
     def __init__(self, day, season, year):
         self.day = day
@@ -21,10 +25,7 @@ class Time(object):
     def check_clock(self):
         return (str(gameTime.season_friendly()), str(self.day), str(self.year))
 
-
     # moves time forward! ^_^
-    # M - it might be nice to have something that jumps up for the day changes
-    # maybe use events.py for that
     def advance_day(self):
         self.count = 0
         if self.day < 30:
@@ -38,7 +39,6 @@ class Time(object):
             self.year += 1
 
         gameTime.check_clock()
-
 
     # returns the season to be printed
     def season_friendly(self):

@@ -1,5 +1,5 @@
-name,where
-glass,field
-dirt,2buyable
-twig,5vendor
-bark,20crafted
+name,where,count,level
+glass,field,,
+dirt,buyable,,2
+twig,vendor,5,
+bark,crafted,20,

@@ -2,6 +2,7 @@
 
 Items are a subclass of ItemType.
 
+Notes:
 Tags are not used currently, and may need some more thought
 """
 import csv
