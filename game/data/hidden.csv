@@ -1,11 +1,11 @@
 name,hidden
-fruit dish,
-string,
-cloth,
-fruit dish2,TRUE
-brick,
-glass,TRUE
-dirt,TRUE
-pebbles,TRUE
-twig,TRUE
-bark,TRUE
+fruit dish,FALSE
+string,FALSE
+cloth,FALSE
+fruit dish2,RANDOM
+brick,FALSE
+glass,SPECIAL
+dirt,SPECIAL
+pebbles,RANDOM
+twig,SPECIAL
+bark,SPECIAL

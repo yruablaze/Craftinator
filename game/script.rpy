@@ -22,6 +22,7 @@ init python:
     items_crafted = 0
     items_found = 0
     items_sold = 0
+    items_purchased = 0
     money_made = 0
 
     TEXT_COLOR = "#339900"
@@ -158,7 +159,7 @@ label stall:
             currentPlayer.inventory.remove_item(choice)
             currentPlayer.money += choice.sell_price
             items_sold += 1
-            money_made += choice.sell_price 
+            money_made += choice.sell_price
             narrator ("You sold %s for %s gold" % (choice.name, choice.sell_price))
     jump stall
 
@@ -188,6 +189,7 @@ label market2:
             buyable_items.remove(choice)
             currentPlayer.inventory.add_item(choice)
             currentPlayer.money -= choice.buy_price
+            items_purchased += 1
             narrator ("You bought %s for %s gold" % (choice.name, choice.buy_price))
     jump market2
 

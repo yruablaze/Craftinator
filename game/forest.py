@@ -16,7 +16,7 @@ class ForestLocation(object):
     def add_item(self, item, chance):
         self.itemTypes[ITEM_TYPES[item]] = chance
 
-# TypeError: unsupported operand type(s) for +=: 'int' and 'ItemType' on line 22
+
     def search(self):
         _sum_chance = 0
         for v in self.itemTypes.itervalues():
