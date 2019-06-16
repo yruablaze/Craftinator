@@ -1,5 +1,5 @@
-name,where,count,level
-glass,field,,
-dirt,buyable,,2
-twig,vendor,5,
-bark,crafted,20,
+name,where,level,stat,count
+glass,field,2,,
+dirt,buyable,2,,
+twig,,,items_sold,5
+bark,,,items_crafted,20

@@ -30,6 +30,8 @@ hidden_recipes = {}
 special_recipes = {}
 special_recipes_path = {}
 
+# def check_special_recipes():
+
 
 def find_recipe(key):
     """use when player should find new recipes"""
@@ -42,6 +44,8 @@ def find_recipe(key):
 
 """Example of recipe:
 "brick": Recipe(ITEM_TYPES['brick'], {ITEM_TYPES['stone']: 2})
+
+Puts all available recipes into hidden_recipes
 """
 with open(renpy.loader.transfn("data/recipes.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
@@ -59,7 +63,9 @@ with open(renpy.loader.transfn("data/recipes.csv")) as f:
                                                            {ITEM_TYPES[_component]:
                                                             _quantity})
 
-
+"""Goes through all recipes in hidden_recipes
+using hidden.csv sorts recipes into hidden, special and known
+"""
 with open(renpy.loader.transfn("data/hidden.csv")) as f:
     for row in csv.DictReader(f, skipinitialspace=True):
         _current_line = {}
