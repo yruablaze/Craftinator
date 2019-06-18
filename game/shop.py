@@ -1,7 +1,6 @@
 """What can be bought
 
-Used to run all buying and selling.
-Now a list of things that can be bought from market
+List of things that can be bought from market
 
 Notes:
 Maybe later there will be more market stalls
@@ -26,3 +25,16 @@ def get_buyable(avail_items=3):
     for i in range(avail_items):
         buyable_list.append(Item(random.choice(BUY_ITEMS_LIST)))
     return buyable_list
+
+special_recipes_path = {}
+
+with open(renpy.loader.transfn("data/specialRecipeKeys.csv")) as f:
+    for row in csv.DictReader(f, skipinitialspace=True):
+        _current_line = {}
+        for k, v in row.items():
+            _current_line[k.lower()] = v
+        _key = _current_line['name'].lower().replace(" ", "_")
+        _name = _current_line['name']
+        _stat = _current_line['stat']
+        _count = int(_current_line['count'])
+        special_recipes_path[_key] = {"name": _name, "stat": _stat, "count": _count}

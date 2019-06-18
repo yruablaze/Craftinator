@@ -28,5 +28,7 @@ the value of the dictionary. else statement makes new dict entry."""
 # events.on("enter_forest", func2)
 # events.off("enter_forest", func)
 # events.trigger("enter_forest")
-
 # events.on("level_up", check_recipes(player.lvl))
+
+#events --- player level up, items sold count up, items crafted count up
+currentEvents = Events()

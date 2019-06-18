@@ -4,14 +4,11 @@ contains the list of recipes for crafting
 a tuple (item, dictionary) but only by choice
 
 Notes:
-maybe special_recipes_path should be a class to handle things like
-    you need to be this level and have done this much to unlock
-
-the Recipe class doesn't do much
 """
 from items import *
 import csv
 import renpy
+from events import currentEvents
 
 
 class Recipe(object):
@@ -28,7 +25,6 @@ recipes = {}
 hidden_recipes = {}
 
 special_recipes = {}
-special_recipes_path = {}
 
 # def check_special_recipes():
 
